@@ -4,10 +4,12 @@ export const distance = ([cx, cy]: number[], [dx, dy]: number[]) => Math.sqrt(Ma
 
 export const normalizePoint = (point: number[], offset: number) => {
     point[0] -= 2.32
-    point[0] *= 7000
+    point[0] *= 5000 
+    * (window.innerWidth/1920) 
     point[0] += (offset)
     point[1] -= 48.815
-    point[1] *= 10700 * 1.3
+    point[1] *= 10700 
+    *  (window.innerHeight/1080)
     return point
 }
 
