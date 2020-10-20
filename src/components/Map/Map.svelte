@@ -10,10 +10,13 @@
 
     // const randf = require('randf')
     const simplifier = require('simplify-geojson')
+    const TWEEN = require('@tweenjs/tween.js')
     // const notThatSimpleArrondissements = simplifier(arrondissements, 0.0002)
     const simpleArrondissements = simplifier(arrondissements, 0.002)
 
     let canvas, blobs, map, svg, ctx, ctx2
+    let zoomLevel = {val: 1}
+    let center = {x: 0, y: 0}
 
     let time = 0
     setInterval(() => {
@@ -31,29 +34,25 @@
     }
 
     function drawMap () {
-        console.log('nique');
         // ctx2.moveTo(10, 10)
+        ctx2.save()
+        ctx2.scale(zoomLevel.val, zoomLevel.val)
+        ctx2.translate(center.x, center.y)
         ctx2.fillStyle = '#fff'
         ctx2.strokeStyle = '#ffffff88'
-        // ctx2.save()
         ctx2.globalAlpha = 0.5
 
         for (const feature of arrondissements.features) {
             ctx2.beginPath()
+            ctx.lineWidth = 2.0;
             let prevPoint = feature.geometry.coordinates[0][0]
             for (let point of feature.geometry.coordinates[0]) {
-                // point[0] -= 2.32
-                // point[0] *= 7000
-                // point[0] += (svg.clientWidth/2 - 100)
-                // point[1] -= 48.815
-                // point[1] *= 10700 * 1.3
-                // point = normalizePoint(point, svg.clientWidth/2 - 100)
                 ctx2.lineTo(point[0], point[1])
                 ctx2.stroke()
             }
             ctx2.closePath()
         }
-        // ctx2.restore()
+        ctx2.restore()
     }
 
     const responses = results.length
@@ -71,10 +70,11 @@
         }
     }
 
-    function drawBlobs (scale = 1) {
+    function drawBlobs () {
         // console.log(scale);
         ctx.save()
-        ctx.scale(scale, scale)
+        ctx.scale(zoomLevel.val, zoomLevel.val)
+        ctx.translate(center.x, center.y)
         ctx.moveTo(10, 10)
         ctx.fillStyle = '#fff'
         ctx.strokeStyle = '#fff'
@@ -90,9 +90,6 @@
             // ctx.save()
 
             ctx.beginPath()
-            // for (let point of feature.geometry.coordinates[0]) {
-            //     point = normalizePoint(point, svg.clientWidth/2 - 100, time)
-            // }
 
             const points = feature.geometry.coordinates[0]
             var line = d3.line().context(ctx).curve(d3.curveBundle.beta(1))
@@ -183,28 +180,32 @@
         }
     }
 
-    let zoomLevel = 1
     function zoom(pos) {
         // map.style.transform = 'scale(2)'
         // blobs.style.transform = 'scale(2)'
         // let factor = 1
-        // while (factor < 2) {
-        //     factor * 1.01
-        //     window.zoomFactor = factor
-        //     requestAnimationFrame(zoom)
-        // }
+        console.log('zoomed');
+        const scale = new TWEEN.Tween(zoomLevel)
+            .to({val: 2}, 1000)
+            .easing(TWEEN.Easing.Quadratic.Out)
+            .start()
+        // const center = new TWEEN.Tween(center)
+        //     .to({x: pos[0] * 100, y: pos[1] * 100}, 1000)
+        //     .easing(TWEEN.Easing.Quadratic.Out)
+        //     .start()
         // ctx.clearRect(0, 0, window.innerWidth, window.innerHeight)
         // ctx2.clearRect(0, 0, window.innerWidth, window.innerHeight)
         // ctx.scale(1.5, 1.5)
         // ctx2.scale(1.5, 1.5)
-        zoomLevel = 2
+        // zoomLevel = 2
     }
     
     function animate() {
         ctx.clearRect(0, 0, innerWidth, innerHeight)
         ctx2.clearRect(0, 0, innerWidth, innerHeight)
-        drawBlobs(zoomLevel)
+        drawBlobs()
         drawMap()
+        TWEEN.update()
         requestAnimationFrame(animate)
     }
 
@@ -253,6 +254,8 @@
 <style lang="stylus">
     .blobs, .map
         transform rotate(180deg) scaleX(-1)
+    .map
+        opacity 0.3
     canvas, img
       position absolute
 
