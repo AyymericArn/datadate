@@ -20,13 +20,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="35aeb8ab-37e4-4e98-a3e1-6ca6a3de4836" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/lib/BasisCurve.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/lib/basis.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/lib/noop.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/viz.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/viz.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Map/Map.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Map/Map.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/data/results.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/data/results.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/webpack.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/webpack.config.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,6 +59,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="nodejs_package_manager_path" value="npm" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
     <property name="ts.external.directory.path" value="$PROJECT_DIR$/node_modules/typescript/lib" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
@@ -89,7 +89,7 @@
       <option name="presentableId" value="Default" />
       <updated>1603115307922</updated>
       <workItem from="1603115309407" duration="7360000" />
-      <workItem from="1603177538580" duration="12396000" />
+      <workItem from="1603177538580" duration="20995000" />
     </task>
     <task id="LOCAL-00001" summary="intermediate stade for blobs">
       <created>1603194082669</created>
@@ -98,7 +98,21 @@
       <option name="project" value="LOCAL" />
       <updated>1603194082669</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="arrondissement shapes v1">
+      <created>1603201248829</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1603201248829</updated>
+    </task>
+    <task id="LOCAL-00003" summary="cleared useless code">
+      <created>1603201531800</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1603201531800</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -117,29 +131,35 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="intermediate stade for blobs" />
-    <option name="LAST_COMMIT_MESSAGE" value="intermediate stade for blobs" />
+    <MESSAGE value="arrondissement shapes v1" />
+    <MESSAGE value="cleared useless code" />
+    <option name="LAST_COMMIT_MESSAGE" value="cleared useless code" />
   </component>
   <component name="WindowStateProjectService">
-    <state width="2518" height="338" key="GridCell.Tab.0.bottom" timestamp="1603181192415">
+    <state width="2518" height="338" key="GridCell.Tab.0.bottom" timestamp="1603211103496">
       <screen x="0" y="23" width="2560" height="1339" />
     </state>
-    <state width="2518" height="338" key="GridCell.Tab.0.bottom/0.23.2560.1339@0.23.2560.1339" timestamp="1603181192415" />
-    <state width="2518" height="338" key="GridCell.Tab.0.center" timestamp="1603181192414">
+    <state width="2518" height="338" key="GridCell.Tab.0.bottom/0.23.2560.1339@0.23.2560.1339" timestamp="1603211103496" />
+    <state width="2518" height="338" key="GridCell.Tab.0.center" timestamp="1603211103496">
       <screen x="0" y="23" width="2560" height="1339" />
     </state>
-    <state width="2518" height="338" key="GridCell.Tab.0.center/0.23.2560.1339@0.23.2560.1339" timestamp="1603181192414" />
-    <state width="2518" height="338" key="GridCell.Tab.0.left" timestamp="1603181192414">
+    <state width="2518" height="338" key="GridCell.Tab.0.center/0.23.2560.1339@0.23.2560.1339" timestamp="1603211103496" />
+    <state width="2518" height="338" key="GridCell.Tab.0.left" timestamp="1603211103495">
       <screen x="0" y="23" width="2560" height="1339" />
     </state>
-    <state width="2518" height="338" key="GridCell.Tab.0.left/0.23.2560.1339@0.23.2560.1339" timestamp="1603181192414" />
-    <state width="2518" height="338" key="GridCell.Tab.0.right" timestamp="1603181192414">
+    <state width="2518" height="338" key="GridCell.Tab.0.left/0.23.2560.1339@0.23.2560.1339" timestamp="1603211103495" />
+    <state width="2518" height="338" key="GridCell.Tab.0.right" timestamp="1603211103496">
       <screen x="0" y="23" width="2560" height="1339" />
     </state>
-    <state width="2518" height="338" key="GridCell.Tab.0.right/0.23.2560.1339@0.23.2560.1339" timestamp="1603181192414" />
-    <state x="880" y="432" key="Vcs.Push.Dialog.v2" timestamp="1603194090344">
+    <state width="2518" height="338" key="GridCell.Tab.0.right/0.23.2560.1339@0.23.2560.1339" timestamp="1603211103496" />
+    <state x="781" y="331" key="SettingsEditor" timestamp="1603202974240">
       <screen x="0" y="23" width="2560" height="1339" />
     </state>
-    <state x="880" y="432" key="Vcs.Push.Dialog.v2/0.23.2560.1339@0.23.2560.1339" timestamp="1603194090344" />
+    <state x="781" y="331" key="SettingsEditor/0.23.2560.1339@0.23.2560.1339" timestamp="1603202974240" />
+    <state x="880" y="432" key="Vcs.Push.Dialog.v2" timestamp="1603201552792">
+      <screen x="0" y="23" width="2560" height="1339" />
+    </state>
+    <state x="880" y="432" key="Vcs.Push.Dialog.v2/0.23.2560.1339@0.23.2560.1339" timestamp="1603201552792" />
     <state x="1072" y="613" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1603177801129">
       <screen x="0" y="23" width="2560" height="1339" />
     </state>

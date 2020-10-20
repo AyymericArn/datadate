@@ -54,7 +54,7 @@ module.exports = {
       new webpack.DefinePlugin({
         'process.browser': true,
         'process.env.NODE_ENV': JSON.stringify(mode),
-      }),
+      })
     ].filter(Boolean),
     devtool: dev && 'inline-source-map',
   },
@@ -117,4 +117,8 @@ module.exports = {
     },
     mode,
   },
+
+  node: {
+    global: false,
+  }
 };
