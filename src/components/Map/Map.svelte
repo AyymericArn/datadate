@@ -7,7 +7,6 @@
     import { onMount } from 'svelte'
 
     import { trigoangle, normalizePoint, geocode, distance } from '../../utils'
-import { Z_NO_COMPRESSION } from 'zlib';
 
     // const randf = require('randf')
     const simplifier = require('simplify-geojson')
@@ -15,6 +14,11 @@ import { Z_NO_COMPRESSION } from 'zlib';
     const simpleArrondissements = simplifier(arrondissements, 0.002)
 
     let canvas, blobs, map, svg, ctx, ctx2
+
+    let time = 0
+    setInterval(() => {
+        time++
+    }, 1000);
 
     function isVertical ([cx, cy], [dx, dy]) {
         console.log(arguments)
@@ -27,9 +31,12 @@ import { Z_NO_COMPRESSION } from 'zlib';
     }
 
     function drawMap () {
-        ctx2.moveTo(10, 10)
+        console.log('nique');
+        // ctx2.moveTo(10, 10)
         ctx2.fillStyle = '#fff'
-        ctx2.strokeStyle = '#fff'
+        ctx2.strokeStyle = '#ffffff88'
+        // ctx2.save()
+        ctx2.globalAlpha = 0.5
 
         for (const feature of arrondissements.features) {
             ctx2.beginPath()
@@ -40,18 +47,34 @@ import { Z_NO_COMPRESSION } from 'zlib';
                 // point[0] += (svg.clientWidth/2 - 100)
                 // point[1] -= 48.815
                 // point[1] *= 10700 * 1.3
-                point = normalizePoint(point, svg.clientWidth/2 - 100)
+                // point = normalizePoint(point, svg.clientWidth/2 - 100)
                 ctx2.lineTo(point[0], point[1])
                 ctx2.stroke()
             }
             ctx2.closePath()
         }
+        // ctx2.restore()
     }
 
     const responses = results.length
 
+    function resizePoints () {
+        for (const feature of arrondissements.features) {
+            for (let point of feature.geometry.coordinates[0]) {
+                point = normalizePoint(point, svg.clientWidth/2 - 100, time)
+            }
+        }
+        for (const feature of simpleArrondissements.features) {
+            for (let point of feature.geometry.coordinates[0]) {
+                point = normalizePoint(point, svg.clientWidth/2 - 100, time)
+            }
+        }
+    }
 
-    function drawBlobs () {
+    function drawBlobs (scale = 1) {
+        // console.log(scale);
+        ctx.save()
+        ctx.scale(scale, scale)
         ctx.moveTo(10, 10)
         ctx.fillStyle = '#fff'
         ctx.strokeStyle = '#fff'
@@ -64,10 +87,12 @@ import { Z_NO_COMPRESSION } from 'zlib';
         }
 
         for (const [index, feature] of simpleArrondissements.features.entries()) {
-            ctx.save()
-            for (let point of feature.geometry.coordinates[0]) {
-                    point = normalizePoint(point, svg.clientWidth/2 - 100)
-            }
+            // ctx.save()
+
+            ctx.beginPath()
+            // for (let point of feature.geometry.coordinates[0]) {
+            //     point = normalizePoint(point, svg.clientWidth/2 - 100, time)
+            // }
 
             const points = feature.geometry.coordinates[0]
             var line = d3.line().context(ctx).curve(d3.curveBundle.beta(1))
@@ -91,12 +116,12 @@ import { Z_NO_COMPRESSION } from 'zlib';
                 ctx.fillStyle = 'rgba(255, 106, 213)'
                 ctx.globalAlpha = 0.4
             }
-            // if ( visitors/responses > 0.4 ) {
-            //     ctx.fillStyle = 'rgba(255, 106, 213, 0.6)'
-            // }
-            // if ( visitors/responses > 0.7 ) {
-            //     ctx.fillStyle = 'rgba(255, 106, 213, 0.8)'
-            // }
+            if ( visitors/responses > 0.4 ) {
+                ctx.fillStyle = 'rgba(255, 106, 213, 0.6)'
+            }
+            if ( visitors/responses > 0.7 ) {
+                ctx.fillStyle = 'rgba(255, 106, 213, 0.8)'
+            }
 
             // console.log(ctx.fillStyle)
             ctx.fill()
@@ -105,8 +130,10 @@ import { Z_NO_COMPRESSION } from 'zlib';
             // ctx.fontSize = '16px'
             // ctx.fontFamily = 'Arial'
             // ctx.fillText(index.toString(), feature.geometry.coordinates[0][0] + 50, feature.geometry.coordinates[0][1] + 50)
-            ctx.restore()
+            
+            // ctx.restore()
         }
+        ctx.restore()
     }
 
     let interestPointsCoords = [], interestPointsAddresses = []
@@ -156,12 +183,33 @@ import { Z_NO_COMPRESSION } from 'zlib';
         }
     }
 
+    let zoomLevel = 1
     function zoom(pos) {
-        map.style.transform = 'scale(2)'
-        blobs.style.transform = 'scale(2)'
+        // map.style.transform = 'scale(2)'
+        // blobs.style.transform = 'scale(2)'
+        // let factor = 1
+        // while (factor < 2) {
+        //     factor * 1.01
+        //     window.zoomFactor = factor
+        //     requestAnimationFrame(zoom)
+        // }
+        // ctx.clearRect(0, 0, window.innerWidth, window.innerHeight)
+        // ctx2.clearRect(0, 0, window.innerWidth, window.innerHeight)
+        // ctx.scale(1.5, 1.5)
+        // ctx2.scale(1.5, 1.5)
+        zoomLevel = 2
+    }
+    
+    function animate() {
+        ctx.clearRect(0, 0, innerWidth, innerHeight)
+        ctx2.clearRect(0, 0, innerWidth, innerHeight)
+        drawBlobs(zoomLevel)
+        drawMap()
+        requestAnimationFrame(animate)
     }
 
     onMount(async () => {
+
         canvas.width = window.innerWidth 
             // * window.devicePixelRatio
         canvas.height = window.innerHeight 
@@ -184,11 +232,17 @@ import { Z_NO_COMPRESSION } from 'zlib';
         ctx2.imageSmoothingEnabled = true
         // ctx.translate(0.5,0.5);
 
-        drawBlobs()
-        addPoints()
-        drawMap()
+        resizePoints()
+        // drawBlobs()
+        // drawMap()
 
-        console.log(interestPointsCoords)
+        animate()
+        addPoints()
+
+        // window.time = 1
+        // setInterval(() => {
+        //     window.time++
+        // }, 1000);
 
         window.addEventListener('resize', resize)
     })

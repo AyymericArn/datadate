@@ -2,7 +2,7 @@ export const trigoangle = ([cx,cy]: number[], [dx,dy]: number[]) => Math.atan2(d
 
 export const distance = ([cx, cy]: number[], [dx, dy]: number[]) => Math.sqrt(Math.pow(cx - dx, 2) + Math.pow(cy - dy, 2))
 
-export const normalizePoint = (point: number[], offset: number) => {
+export const normalizePoint = (point: number[], offset: number, time: number) => {
     point[0] -= 2.32
     point[0] *= 5000 
     * (window.innerWidth/1920) 
