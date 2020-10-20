@@ -1,22 +1,109 @@
 <script>
     import mapSrc from '../../assets/DessinArrondissement.svg'
-    import arrondissements from '../../data/arrondissements-simplified.geo.json'
+    import arrondissements from '../../data/arrondissements.geo.json'
     import { onMount } from 'svelte'
 
-    let canvas, blobs, svg, ctx
+    import { trigoangle } from '../../utils'
+
+    const randf = require('randf')
+    const simplifier = require('simplify-geojson')
+    const simpleArrondissements = simplifier(arrondissements, 0.0002)
+
+    // const arrondissements = require('../../data/arrondissements-simplified.geojson')
+
+    let canvas, blobs, map, svg, ctx, ctx2
+
+    function isVertical ([cx, cy], [dx, dy]) {
+        console.log(arguments)
+        const angle = trigoangle(arguments[0], arguments[1])
+        if (
+            (angle > 45 && angle < 135) ||
+            (angle > 225 && angle < 345)
+        ) return true
+        else return false
+    }
+
+    function drawMap () {
+        ctx2.moveTo(10, 10)
+        ctx2.fillStyle = '#fff'
+        ctx2.strokeStyle = '#fff'
+
+        for (const feature of arrondissements.features) {
+            ctx2.beginPath()
+            let prevPoint = feature.geometry.coordinates[0][0]
+            for (const point of feature.geometry.coordinates[0]) {
+                point[0] -= 2.32
+                point[0] *= 7000
+                point[0] += (svg.clientWidth/2 - 100)
+                point[1] -= 48.815
+                point[1] *= 10700 * 1.3
+                ctx2.lineTo(point[0], point[1])
+                ctx2.stroke()
+            }
+            ctx2.closePath()
+        }
+    }
 
     function drawBlobs () {
         ctx.moveTo(10, 10)
         ctx.fillStyle = '#fff'
+        ctx.strokeStyle = '#fff'
 
-        for (const feature of arrondissements.features) {
-            for (const point of feature.geometry.coordinates[0]) {
+        for (const feature of simpleArrondissements.features) {
+            ctx.beginPath()
+            let prevPoint = feature.geometry.coordinates[0][0]
+
+            for (let i = 2; i < feature.geometry.coordinates[0].length; i+=3) {
+                let inflexPoint1 = feature.geometry.coordinates[0][i-2]
+                let inflexPoint2 = feature.geometry.coordinates[0][i-1]
+                let point = feature.geometry.coordinates[0][i]
                 point[0] -= 2.32
+                point[0] *= 7000
+                point[0] += (svg.clientWidth/2 - 100)
                 point[1] -= 48.815
-                console.log(point)
-                console.log(point[1] * 2)
-                ctx.fillRect(point[0] * 7000 + svg.clientWidth/2 - 100, point[1] * 10700, 2, 2)
+                point[1] *= 10700 * 1.3
+
+                inflexPoint1[0] -= 2.32
+                inflexPoint1[0] *= 7000
+                inflexPoint1[0] += (svg.clientWidth/2 - 100)
+                inflexPoint1[1] -= 48.815
+                inflexPoint1[1] *= 10700 * 1.3
+
+                inflexPoint2[0] -= 2.32
+                inflexPoint2[0] *= 7000
+                inflexPoint2[0] += (svg.clientWidth/2 - 100)
+                inflexPoint2[1] -= 48.815
+                inflexPoint2[1] *= 10700 * 1.3
+
+                ctx.bezierCurveTo(inflexPoint1[0], inflexPoint1[1], inflexPoint2[0], inflexPoint2[1], point[0], point[1])
+                ctx.stroke()
             }
+            // for (const point of feature.geometry.coordinates[0]) {
+            //     point[0] -= 2.32
+            //     point[0] *= 7000
+            //     point[0] += (svg.clientWidth/2 - 100)
+            //     point[1] -= 48.815
+            //     point[1] *= 10700 * 1.3
+            //     // ctx.fillRect(point[0] * 7000 + svg.clientWidth/2 - 100, point[1] * 10700 * 1.3, 2, 2)
+            //     const inflexionPoint = [
+            //         isVertical(prevPoint, point) ? randf(point[0] - 1, point[0] + 1) : randf(prevPoint[0], point[0]),
+            //         isVertical(prevPoint, point) ? randf(prevPoint[1], point[1]) : randf(point[1] - 1, point[1] + 1)
+            //     ]
+            //     const inflexionPoint1 = [
+            //         isVertical(prevPoint, point) ? randf(point[0] - 1, point[0] + 1) : randf(prevPoint[0], point[0]/2),
+            //         isVertical(prevPoint, point) ? randf(prevPoint[1], point[1]/2) : randf(point[1] - 1, point[1] + 1)
+            //     ]
+            //     const inflexionPoint2 = [
+            //         isVertical(prevPoint, point) ? randf(point[0] - 1, point[0] + 1) : randf(prevPoint[0] + point[0] / 2, point[0]),
+            //         isVertical(prevPoint, point) ? randf(prevPoint[1] + point[1]/2, point[1]) : randf(point[1] - 1, point[1] + 1)
+            //     ]
+            //     ctx.quadraticCurveTo(inflexionPoint[0], inflexionPoint[1], point[0], point[1]  )
+            //     // ctx.bezierCurveTo(inflexionPoint1[0], inflexionPoint1[1], inflexionPoint2[0], inflexionPoint2[1], point[0], point[1] )
+            //     // ctx.lineTo(point[0], point[1])
+            //     ctx.stroke()
+            //     prevPoint = point
+            // }
+            ctx.closePath()
         }
         // for (const point of arrondissements.features[15].geometry.coordinates[0]) {
         // }
@@ -30,7 +117,8 @@
 
     function resize() {
         blobs.width = window.innerWidth
-        drawBlobs()
+        // drawBlobs()
+        drawMap()
     }
 
     onMount(async () => {
@@ -38,10 +126,14 @@
         canvas.height = window.innerHeight
         blobs.width = window.innerWidth
         blobs.height = window.innerHeight
+        map.width = window.innerWidth
+        map.height = window.innerHeight
 
         ctx = blobs.getContext('2d')
+        ctx2 = map.getContext('2d')
 
         drawBlobs()
+        // drawMap()
         window.addEventListener('resize', resize)
     })
 
@@ -49,7 +141,7 @@
 </script>
 
 <style lang="stylus">
-    .blobs
+    .blobs, .map
         transform rotate(180deg) scaleX(-1)
     canvas, img
       position absolute
@@ -64,6 +156,8 @@
 <canvas bind:this={canvas}>
 </canvas>
 
+<canvas class="map" bind:this={map}>
+</canvas>
 <canvas class="blobs" bind:this={blobs}>
 </canvas>
 

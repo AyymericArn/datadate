@@ -1,0 +1,1 @@
+export const trigoangle = ([cx,cy]: number[], [dx,dy]: number[]) => Math.atan2(dy - cy, dx - cx) * 180 / Math.PI

@@ -26,6 +26,10 @@ module.exports = {
           exclude: '/node_modules/',
         },
         {
+          test: /\.(geojson)$/,
+          use: 'raw-loader'
+        },
+        {
           test: /\.(png|svg|jpg|gif)$/,
           use: ['file-loader']
         },
@@ -71,6 +75,10 @@ module.exports = {
         {
           test: /\.(png|svg|jpg|gif)$/,
           use: ['file-loader']
+        },
+        {
+          test: /\.(geojson)$/,
+          use: 'raw-loader'
         },
         {
           test: /\.(svelte|html)$/,

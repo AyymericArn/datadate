@@ -14,6 +14,9 @@
   "dependencies": {
     "compression": "^1.7.1",
     "polka": "next",
+    "randf": "^1.0.0",
+    "raw-loader": "^4.0.2",
+    "simplify-geojson": "^1.0.4",
     "sirv": "^1.0.0"
   },
   "devDependencies": {
