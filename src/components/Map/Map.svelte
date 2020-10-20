@@ -134,12 +134,13 @@
     }
 
     let interestPointsCoords = [], interestPointsAddresses = []
+    let geocoding
     function addPoints () {
         results.forEach(_res => {
             _res.meets.forEach(_meet => {
                 _meet.dates.forEach(async _date => {
                     if (_date.address) {
-                        const geocoding = await geocode(_date.address)
+                        geocoding = geocoding || await geocode(_date.address)
                         let point = geocoding.features[0].geometry.coordinates
                         point = normalizePoint(point, svg.clientWidth/2 - 100)
                         interestPointsCoords.push(point)
@@ -205,6 +206,7 @@
         ctx2.clearRect(0, 0, innerWidth, innerHeight)
         drawBlobs()
         drawMap()
+        addPoints()
         TWEEN.update()
         requestAnimationFrame(animate)
     }
