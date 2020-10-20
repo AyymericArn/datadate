@@ -6,7 +6,7 @@
 
     import { onMount } from 'svelte'
 
-    import { trigoangle, normalizePoint, geocode } from '../../utils'
+    import { trigoangle, normalizePoint, geocode, distance } from '../../utils'
 
     // const randf = require('randf')
     const simplifier = require('simplify-geojson')
@@ -54,16 +54,24 @@
         ctx.fillStyle = '#fff'
         ctx.strokeStyle = '#fff'
 
-        ctx.strokeStyle = '#fff'
+        const zonesToFill = {
+            'transparent': [],
+            'rgba(255, 106, 213, 0.4)': [],
+            'rgba(255, 106, 213, 0.6)': [],
+            'rgba(255, 106, 213, 0.8)': [],
+        }
+
         for (const [index, feature] of simpleArrondissements.features.entries()) {
             ctx.save()
             for (let point of feature.geometry.coordinates[0]) {
                     point = normalizePoint(point, svg.clientWidth/2 - 100)
             }
+
             const points = feature.geometry.coordinates[0]
             var line = d3.line().context(ctx).curve(d3.curveBundle.beta(1))
             line(points)
-            ctx.stroke()
+            // ctx.stroke()
+            ctx.closePath()
 
             const visitors =
                 results.reduce((acc, _res) =>
@@ -74,10 +82,7 @@
                                     acc + Number((index+1) === parseInt(_date.quartiers)), 0
                                 ), 0), 0);
 
-            // console.log(visitors)
-            // console.log(visitors/responses)
-
-            console.log(index)
+            // if (visitors) zonesToFill.push(index)
 
             ctx.fillStyle = 'transparent'
             if ( visitors/responses > 0.1 ) {
@@ -102,6 +107,7 @@
         }
     }
 
+    let interestPoints = []
     function addPoints () {
         results.forEach(_res => {
             _res.meets.forEach(_meet => {
@@ -109,10 +115,8 @@
                     if (_date.address) {
                         const geocoding = await geocode(_date.address)
                         let point = geocoding.features[0].geometry.coordinates
-                        console.log(point[0])
                         point = normalizePoint(point, svg.clientWidth/2 - 100)
-                        // console.log(Math.round(point[0]))
-                        // console.log(point[1])
+                        interestPoints.push(point)
                         const gradient = ctx.createRadialGradient(Math.round(point[0]), Math.round(point[1]), 5, point[0], point[1], 30)
                         gradient.addColorStop(0, '#FF6AD5')
                         gradient.addColorStop(1, 'rgba(255,106,213,0)');
@@ -126,8 +130,17 @@
 
     function resize() {
         blobs.width = window.innerWidth
-        // drawBlobs()
+        drawBlobs()
         drawMap()
+    }
+
+    function handleMouseMove (e) {
+        for (const interestPoint of interestPoints) {
+            if (distance([e.clientX, e.clientY], interestPoint) < 50) {
+                e.target.style.cursor = 'pointer'
+            } else
+                e.target.style.cursor = 'initial'
+        }
     }
 
     onMount(async () => {
@@ -143,7 +156,9 @@
 
         drawBlobs()
         addPoints()
-        // drawMap()
+        drawMap()
+
+        console.log(interestPoints)
 
         window.addEventListener('resize', resize)
     })
@@ -153,12 +168,12 @@
 
 <style lang="stylus">
     .blobs, .map
-        transform rotate(180deg) scaleX(-1)
+        //transform rotate(180deg) scaleX(-1)
     canvas, img
       position absolute
 
     img
-      opacity 0.5
+      opacity 0
       width: 100%
       height 100%
 </style>
@@ -169,5 +184,5 @@
 
 <canvas class="map" bind:this={map}>
 </canvas>
-<canvas class="blobs" bind:this={blobs}>
+<canvas on:mousemove={handleMouseMove} class="blobs" bind:this={blobs}>
 </canvas>
