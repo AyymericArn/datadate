@@ -160,7 +160,7 @@
                 }
 
                 ctx.fill(shape)
-                if (!isZooming && !state.isDragging) addPoints(shape)
+                if (!isZooming && !state.isDragging) addPoints(shape, colors[population] )
                 // ctx.fillStyle = 'white'
                 // ctx.fontSize = '16px'
                 // ctx.fontFamily = 'Arial'
@@ -173,10 +173,11 @@
 
     let interestPointsCoords = [], interestPointsAddresses = []
     let geocoding
-    function addPoints (path) {
+    function addPoints (path, population) {
         const hasCache = !!geocoding
 
-        results.forEach(_res => {
+        for (const _res of results) {
+            if (_res.situation !== population) continue
             _res.meets.forEach(_meet => {
                 _meet.dates.forEach(async _date => {
                     if (_date.address) {
@@ -212,7 +213,7 @@
                             6
                         )
 
-                        gradient.addColorStop(0, '#FF6AD5')
+                        gradient.addColorStop(0, colors[population])
 
                         gradient.addColorStop(1, 'rgba(255,106,213,0)');
 
@@ -222,7 +223,7 @@
                     }
                 })
             })
-        })
+        }
     }
 
     function resize() {
