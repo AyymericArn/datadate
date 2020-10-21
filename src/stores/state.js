@@ -5,4 +5,4 @@ export const selected = writable({
     lieu: []
 });
 
-export const screen = writable(1);
+export const screen = writable(0);

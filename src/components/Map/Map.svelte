@@ -186,22 +186,24 @@
                         const geocoding = await geocode(_date.address)
     
                         if (!geocoding) continue
-    
+
                         let point = geocoding.features[0].geometry.coordinates
-    
+                        
                         if (!hasCache) point = normalizePoint(point, svg.clientWidth/2 - 100)
-    
+                        
                         // console.log(point)
                         // console.log(point[0] * zoomLevel.val + center.x)
                         // console.log(point[1] * zoomLevel.val + center.y)
-    
+                        
                         if (state.isZoomed) {
                             point[0] *= zoomLevel.val/1.15
                             point[0] += center.x/0.3
                             point[1] *= zoomLevel.val/1.15
                             point[1] += center.y/0.3
                         }
-    
+                        
+                        console.log(point)
+                        
                         if (!interestPointsCoords.some(_p => _p[0] === point[0])) {
                             console.log('PUSH')
                             interestPointsCoords.push(point)
@@ -242,11 +244,13 @@
         let clientY = window.innerHeight - e.clientY
 
         if (state.isZoomed) {
-            clientX *= zoomLevel.val
-            clientX += center.x
-            clientY *= zoomLevel.val
-            clientY += center.y
+            clientX *= zoomLevel.val/2.8
+            clientX += center.x/1.8
+            clientY *= zoomLevel.val/2.8
+            clientY += center.y/1.8
         }
+
+        console.log(clientX, clientY)
 
         let isOverPoint = false
 
@@ -276,7 +280,7 @@
         console.log('clicked')
         console.log(e)
         console.log($selected)
-        if (overPoint) {
+        if (overPoint !== undefined) {
             zoom(interestPointsCoords[overPoint])
         }
     }

@@ -4,6 +4,8 @@
     import Menu from '../components/Map/Menu.svelte'
 
     import { screen } from '../stores/state'
+
+    import { onMount } from 'svelte'
 </script>
 
 <style lang="stylus">
@@ -19,7 +21,7 @@
 <div class="map">
     <Title></Title>
     {#if $screen === 0}
-    <Map stepped={true}></Map>
+    <Map></Map>
     {:else if $screen === 1}
       <!-- <Map index={0} stepped={true}></Map> -->
       <Map index={1} stepped={true}></Map>

@@ -1,4 +1,6 @@
 <script>
+	import { goto } from '@sapper/app';
+
 	import anime from 'animejs/lib/anime.es.js';
 	import { onMount } from 'svelte'
 
@@ -6,6 +8,9 @@
 
 	function enter() {
 		entering = true
+		setTimeout(() => {
+			goto('map')
+		}, 600);
 	}
 
 	onMount(async () => {
