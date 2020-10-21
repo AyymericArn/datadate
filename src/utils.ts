@@ -4,17 +4,19 @@ export const distance = ([cx, cy]: number[], [dx, dy]: number[]) => Math.sqrt(Ma
 
 export const normalizePoint = (point: number[], offset: number, time: number) => {
     point[0] -= 2.32
-    point[0] *= 5000 
+    point[0] *= 4000
     * (window.innerWidth/1920) 
     point[0] += (offset)
-    point[1] -= 48.815
-    point[1] *= 10700 
+    point[1] -= 48.805
+    point[1] *= 10100
     *  (window.innerHeight/1080)
     return point
 }
 
 export const geocode = async (address: string) => {
-    const response = await fetch('https://api-adresse.data.gouv.fr/search/?q='+address)
-    const result = await response.json()
-    return result
+    try {
+        const response = await fetch('https://api-adresse.data.gouv.fr/search/?q='+address).catch(()=>null)
+        const result = await response?.json()
+        return result
+    } catch (e) {}
 }

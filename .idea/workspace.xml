@@ -20,10 +20,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="35aeb8ab-37e4-4e98-a3e1-6ca6a3de4836" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/stores/state.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Map/Map.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Map/Map.svelte" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/lib/webgl/Canvas2DtoWebGL.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib/webgl/Canvas2DtoWebGL.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/lib/webgl/litegl.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib/webgl/litegl.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Map/Menu.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Map/Menu.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/data/voie.geojson" beforeDir="false" afterPath="$PROJECT_DIR$/src/data/voie.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,7 +59,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="settings.editor.selected.configurable" value="power.mode.ii" />
     <property name="ts.external.directory.path" value="$PROJECT_DIR$/node_modules/typescript/lib" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
@@ -88,7 +90,7 @@
       <updated>1603115307922</updated>
       <workItem from="1603115309407" duration="7360000" />
       <workItem from="1603177538580" duration="23239000" />
-      <workItem from="1603264271493" duration="13756000" />
+      <workItem from="1603264271493" duration="23119000" />
     </task>
     <task id="LOCAL-00001" summary="intermediate stade for blobs">
       <created>1603194082669</created>
@@ -132,7 +134,14 @@
       <option name="project" value="LOCAL" />
       <updated>1603272123057</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="basic drag">
+      <created>1603282026998</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1603282026998</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -157,33 +166,34 @@
     <MESSAGE value="spots are ok" />
     <MESSAGE value="(wip) hover of points" />
     <MESSAGE value="basic zoom" />
-    <option name="LAST_COMMIT_MESSAGE" value="basic zoom" />
+    <MESSAGE value="basic drag" />
+    <option name="LAST_COMMIT_MESSAGE" value="basic drag" />
   </component>
   <component name="WindowStateProjectService">
-    <state width="2518" height="338" key="GridCell.Tab.0.bottom" timestamp="1603265636585">
+    <state width="2518" height="338" key="GridCell.Tab.0.bottom" timestamp="1603286517869">
       <screen x="0" y="23" width="2560" height="1339" />
     </state>
-    <state width="2518" height="338" key="GridCell.Tab.0.bottom/0.23.2560.1339@0.23.2560.1339" timestamp="1603265636585" />
-    <state width="2518" height="338" key="GridCell.Tab.0.center" timestamp="1603265636584">
+    <state width="2518" height="338" key="GridCell.Tab.0.bottom/0.23.2560.1339@0.23.2560.1339" timestamp="1603286517869" />
+    <state width="2518" height="338" key="GridCell.Tab.0.center" timestamp="1603286517869">
       <screen x="0" y="23" width="2560" height="1339" />
     </state>
-    <state width="2518" height="338" key="GridCell.Tab.0.center/0.23.2560.1339@0.23.2560.1339" timestamp="1603265636584" />
-    <state width="2518" height="338" key="GridCell.Tab.0.left" timestamp="1603265636582">
+    <state width="2518" height="338" key="GridCell.Tab.0.center/0.23.2560.1339@0.23.2560.1339" timestamp="1603286517869" />
+    <state width="2518" height="338" key="GridCell.Tab.0.left" timestamp="1603286517868">
       <screen x="0" y="23" width="2560" height="1339" />
     </state>
-    <state width="2518" height="338" key="GridCell.Tab.0.left/0.23.2560.1339@0.23.2560.1339" timestamp="1603265636582" />
-    <state width="2518" height="338" key="GridCell.Tab.0.right" timestamp="1603265636584">
+    <state width="2518" height="338" key="GridCell.Tab.0.left/0.23.2560.1339@0.23.2560.1339" timestamp="1603286517868" />
+    <state width="2518" height="338" key="GridCell.Tab.0.right" timestamp="1603286517869">
       <screen x="0" y="23" width="2560" height="1339" />
     </state>
-    <state width="2518" height="338" key="GridCell.Tab.0.right/0.23.2560.1339@0.23.2560.1339" timestamp="1603265636584" />
-    <state x="781" y="331" key="SettingsEditor" timestamp="1603202974240">
+    <state width="2518" height="338" key="GridCell.Tab.0.right/0.23.2560.1339@0.23.2560.1339" timestamp="1603286517869" />
+    <state x="781" y="331" key="SettingsEditor" timestamp="1603285523337">
       <screen x="0" y="23" width="2560" height="1339" />
     </state>
-    <state x="781" y="331" key="SettingsEditor/0.23.2560.1339@0.23.2560.1339" timestamp="1603202974240" />
-    <state x="880" y="432" key="Vcs.Push.Dialog.v2" timestamp="1603272129018">
+    <state x="781" y="331" key="SettingsEditor/0.23.2560.1339@0.23.2560.1339" timestamp="1603285523337" />
+    <state x="880" y="432" key="Vcs.Push.Dialog.v2" timestamp="1603282031754">
       <screen x="0" y="23" width="2560" height="1339" />
     </state>
-    <state x="880" y="432" key="Vcs.Push.Dialog.v2/0.23.2560.1339@0.23.2560.1339" timestamp="1603272129018" />
+    <state x="880" y="432" key="Vcs.Push.Dialog.v2/0.23.2560.1339@0.23.2560.1339" timestamp="1603282031754" />
     <state x="1072" y="613" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1603264309480">
       <screen x="0" y="23" width="2560" height="1339" />
     </state>
