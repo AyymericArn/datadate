@@ -2,23 +2,45 @@
     import scaleSrc from '../../assets/Echelle.svg'
     import { selected } from '../../stores/state'
 
-    function togglePopulation (key, e) {
-        console.log(e)
-        selected.update(s => {
-            !s.population.includes(key) ? s.population.push(key) : s.population.splice(s.population.indexOf(key), 1);
-            return s
-        })
+    let allLieu, allPopulation
 
-        e.target.classList.toggle('selected')
-    }
     function toggleLieu (key, e) {
-        selected.update(s => {
-            !s.lieu.includes(key) ? s.lieu.push(key) : s.lieu.splice(s.lieu.indexOf(key), 1);
-            return s
-        })
+        if (key !== 'all' || (key === 'all' && $selected.population.length === 6))
+            allLieu.classList.remove('selection')
 
-        e.target.classList.toggle('selected')
+        if (key === 'all') {
+            selected.update(s => {
+                return {...s, lieu: ['Bar', 'Restaurant', 'Cinéma', 'Concert', 'Musée', 'Parc']}
+            })
+        } else {
+            selected.update(s => {
+                !s.lieu.includes(key) ? s.lieu.push(key) : s.lieu.splice(s.lieu.indexOf(key), 1);
+                return s
+            })
+        }
+
+        e.target.parentElement.classList.toggle('selection')
     }
+
+    function togglePopulation (key, e) {
+
+        if (key !== 'all' || (key === 'all' && $selected.population.length === 5))
+            allPopulation.classList.remove('selection')
+
+        if (key === 'all') {
+            selected.update(s => {
+                return {...s, population: ['alternants', 'student', 'jobless', 'retired', 'employed']}
+            })
+        } else {
+            selected.update(s => {
+                !s.population.includes(key) ? s.population.push(key) : s.population.splice(s.population.indexOf(key), 1);
+                return s
+            })
+        }
+
+        e.target.parentElement.classList.toggle('selection')
+    }
+
 </script>
 
 <style lang="stylus">
@@ -67,9 +89,8 @@
 
             &:focus
                 outline none
-
-            li.selected
-                font-weight bold
+            &.selection
+                font-weight bold !important
 
           .separator
             margin-top 46px
@@ -101,20 +122,20 @@
 
     <ul>
         <span class="separator">Lieux de dates</span>
-        <button on:click={(e) => togglePopulation("all", e)}><li>TOUS</li></button>
-        <button on:click={(e) => togglePopulation("Bar", e)}><li>Bars</li></button>
-        <button on:click={(e) => togglePopulation("Restaurant", e)}><li>Restaurants</li></button>
-        <button on:click={(e) => togglePopulation("Cinéma", e)}><li>Cinémas</li></button>
-        <button on:click={(e) => togglePopulation("Concert", e)}><li>Concerts</li></button>
-        <button on:click={(e) => togglePopulation("Musée", e)}><li>Musée</li></button>
-        <button on:click={(e) => togglePopulation("Parc", e)}><li>Parc</li></button>
+        <button bind:this={allLieu} class="selection" on:click={(e) => toggleLieu("all", e)}><li>TOUS</li></button>
+        <button on:click={(e) => toggleLieu("Bar", e)}><li>Bars</li></button>
+        <button on:click={(e) => toggleLieu("Restaurant", e)}><li>Restaurants</li></button>
+        <button on:click={(e) => toggleLieu("Cinéma", e)}><li>Cinémas</li></button>
+        <button on:click={(e) => toggleLieu("Concert", e)}><li>Concerts</li></button>
+        <button on:click={(e) => toggleLieu("Musée", e)}><li>Musée</li></button>
+        <button on:click={(e) => toggleLieu("Parc", e)}><li>Parc</li></button>
         <span class="separator">Population</span>
-        <button on:click={(e) => toggleLieu("all", e)}><li>TOUS</li></button>
-        <button on:click={(e) => toggleLieu("student", e)}><li>Étudiant.e.s</li></button>
-        <button on:click={(e) => toggleLieu("alternant", e)}><li>Alternant.e.s</li></button>
-        <button on:click={(e) => toggleLieu("jobless", e)}><li>Sans-emploi</li></button>
-        <button on:click={(e) => toggleLieu("retired", e)}><li>Retraité.e.s</li></button>
-        <button on:click={(e) => toggleLieu("other", e)}><li>Autres</li></button>
+        <button bind:this={allPopulation} on:click={(e) => togglePopulation("all", e)}><li>TOUS</li></button>
+        <button on:click={(e) => togglePopulation("student", e)}><li>Étudiant.e.s</li></button>
+        <button on:click={(e) => togglePopulation("alternant", e)}><li>Alternant.e.s</li></button>
+        <button on:click={(e) => togglePopulation("jobless", e)}><li>Sans-emploi</li></button>
+        <button on:click={(e) => togglePopulation("retired", e)}><li>Retraité.e.s</li></button>
+        <button on:click={(e) => togglePopulation("other", e)}><li>Autres</li></button>
         <input type="button" value="Détails par arrondissements">
         <img src={scaleSrc} alt="scale">
     </ul>
