@@ -8,6 +8,9 @@
 
     import { trigoangle, normalizePoint, geocode, distance } from '../../utils'
 
+    // import { vec3 } from 'gl-matrix'
+    // import enableWebGlCanvas from '../../lib/webgl/Canvas2DtoWebGL'
+
     // const randf = require('randf')
     const simplifier = require('simplify-geojson')
     const TWEEN = require('@tweenjs/tween.js')
@@ -15,8 +18,14 @@
     const simpleArrondissements = simplifier(arrondissements, 0.002)
 
     let canvas, blobs, map, svg, ctx, ctx2
+    // let zoomLevel = {val: 4}
+    // let center = {x: -1077/1.3, y: -620/1.3}
     let zoomLevel = {val: 1}
     let center = {x: 0, y: 0}
+    let shouldRender = false, isZooming = false
+    let state = {
+        isZoomed: false
+    }
 
     let time = 0
     setInterval(() => {
@@ -44,7 +53,7 @@
 
         for (const feature of arrondissements.features) {
             ctx2.beginPath()
-            ctx.lineWidth = 2.0;
+            ctx.lineWidth = 2.0
             let prevPoint = feature.geometry.coordinates[0][0]
             for (let point of feature.geometry.coordinates[0]) {
                 ctx2.lineTo(point[0], point[1])
@@ -71,7 +80,6 @@
     }
 
     function drawBlobs () {
-        // console.log(scale);
         ctx.save()
         ctx.scale(zoomLevel.val, zoomLevel.val)
         ctx.translate(center.x, center.y)
@@ -87,15 +95,13 @@
         }
 
         for (const [index, feature] of simpleArrondissements.features.entries()) {
-            // ctx.save()
+            // ctx.beginPath()
 
-            ctx.beginPath()
-
+            const shape = new Path2D()
             const points = feature.geometry.coordinates[0]
-            var line = d3.line().context(ctx).curve(d3.curveBundle.beta(1))
+            var line = d3.line().context(shape).curve(d3.curveBundle.beta(1))
             line(points)
-            // ctx.stroke()
-            ctx.closePath()
+            shape.closePath()
 
             const visitors =
                 results.reduce((acc, _res) =>
@@ -120,35 +126,50 @@
                 ctx.fillStyle = 'rgba(255, 106, 213, 0.8)'
             }
 
-            // console.log(ctx.fillStyle)
-            ctx.fill()
-            // addPoints()
+            ctx.fill(shape)
+            if (!isZooming) addPoints(shape)
             // ctx.fillStyle = 'white'
             // ctx.fontSize = '16px'
             // ctx.fontFamily = 'Arial'
             // ctx.fillText(index.toString(), feature.geometry.coordinates[0][0] + 50, feature.geometry.coordinates[0][1] + 50)
-            
-            // ctx.restore()
         }
         ctx.restore()
     }
 
     let interestPointsCoords = [], interestPointsAddresses = []
     let geocoding
-    function addPoints () {
+    function addPoints (path) {
+        console.log('addPoints')
+        const hasCache = !!geocoding
         results.forEach(_res => {
             _res.meets.forEach(_meet => {
                 _meet.dates.forEach(async _date => {
                     if (_date.address) {
-                        geocoding = geocoding || await geocode(_date.address)
+
+                        geocoding = await geocode(_date.address)
+
                         let point = geocoding.features[0].geometry.coordinates
-                        point = normalizePoint(point, svg.clientWidth/2 - 100)
-                        interestPointsCoords.push(point)
-                        const gradient = ctx.createRadialGradient(Math.round(point[0]), Math.round(point[1]), 5, point[0], point[1], 30)
+
+                        if (!hasCache) point = normalizePoint(point, svg.clientWidth/2 - 100)
+
+                        if (!hasCache) interestPointsCoords.push(point)
+                        console.log(point)
+                        const gradient = ctx.createRadialGradient(
+                            Math.round(point[0] * zoomLevel.val + center.x),
+                            Math.round(point[1] * zoomLevel.val + center.y),
+                            5,
+                            point[0] * zoomLevel.val + center.x,
+                            point[1] * zoomLevel.val + center.y,
+                            30
+                        )
+
                         gradient.addColorStop(0, '#FF6AD5')
+
                         gradient.addColorStop(1, 'rgba(255,106,213,0)');
+
                         ctx.fillStyle = gradient
-                        ctx.fill()
+
+                        ctx.fill(path)
                     }
                 })
             })
@@ -163,6 +184,7 @@
 
     let overPoint
     function handleMouseMove (e) {
+        if (state.isZoomed) {e.target.style.cursor = 'initial'; overPoint = undefined; return;}
         // const clientX = window.innerWidth - e.clientX
         const clientX = e.clientX
         const clientY = window.innerHeight - e.clientY
@@ -176,39 +198,51 @@
     }
 
     function handleClick() {
+        console.log('clicked')
         if (overPoint) {
             zoom(interestPointsCoords[overPoint])
         }
     }
 
     function zoom(pos) {
-        // map.style.transform = 'scale(2)'
-        // blobs.style.transform = 'scale(2)'
-        // let factor = 1
         console.log('zoomed');
+        shouldRender = true
+        isZooming = true
+        state.isZoomed = true
         const scale = new TWEEN.Tween(zoomLevel)
-            .to({val: 2}, 1000)
+            .to({val: 4}, 1000)
             .easing(TWEEN.Easing.Quadratic.Out)
             .start()
-        // const center = new TWEEN.Tween(center)
-        //     .to({x: pos[0] * 100, y: pos[1] * 100}, 1000)
-        //     .easing(TWEEN.Easing.Quadratic.Out)
-        //     .start()
-        // ctx.clearRect(0, 0, window.innerWidth, window.innerHeight)
-        // ctx2.clearRect(0, 0, window.innerWidth, window.innerHeight)
-        // ctx.scale(1.5, 1.5)
-        // ctx2.scale(1.5, 1.5)
-        // zoomLevel = 2
+            .onComplete(() => shouldRender = false)
+        console.log(pos)
+        const translate = new TWEEN.Tween(center)
+            .to({x: -pos[0] / 1.35, y: -pos[1] / 1.35}, 1000)
+            .easing(TWEEN.Easing.Quadratic.Out)
+            .start()
+            .onComplete(() => {
+                isZooming = false
+                render()
+            })
+        // isZooming = false
     }
-    
-    function animate() {
+
+    function render () {
+        console.log('render')
         ctx.clearRect(0, 0, innerWidth, innerHeight)
         ctx2.clearRect(0, 0, innerWidth, innerHeight)
         drawBlobs()
         drawMap()
-        addPoints()
-        TWEEN.update()
+    }
+    
+    function animate() {
+        // ctx.start2D()
+        if (shouldRender) {
+            render()
+            TWEEN.update()
+        }
+        // addPoints()
         requestAnimationFrame(animate)
+        // ctx.finish2D()
     }
 
     onMount(async () => {
@@ -228,7 +262,10 @@
 
         ctx = blobs.getContext('2d')
         ctx2 = map.getContext('2d')
-        
+
+        // ctx = enableWebGLCanvas( blobs );
+        // ctx2 = enableWebGLCanvas( map );
+
         // smoothing
         ctx.imageSmoothingEnabled = true
         // ctx.translate(0.5,0.5)
@@ -239,8 +276,10 @@
         // drawBlobs()
         // drawMap()
 
+        shouldRender = true
         animate()
-        addPoints()
+        shouldRender = false
+        // addPoints()
 
         // window.time = 1
         // setInterval(() => {
