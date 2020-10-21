@@ -2,6 +2,8 @@
     import Title from '../components/Map/Title.svelte'
     import Map from '../components/Map/Map.svelte'
     import Menu from '../components/Map/Menu.svelte'
+
+    import { screen } from '../stores/state'
 </script>
 
 <style lang="stylus">
@@ -16,6 +18,12 @@
 
 <div class="map">
     <Title></Title>
-    <Map></Map>
+    {#if $screen === 0}
+    <Map stepped={true}></Map>
+    {:else if $screen === 1}
+      <!-- <Map index={0} stepped={true}></Map> -->
+      <Map index={1} stepped={true}></Map>
+      <Map index={2} stepped={true}></Map>
+    {/if}
     <Menu></Menu>
 </div>

@@ -1,8 +1,12 @@
 <script>
     import scaleSrc from '../../assets/Echelle.svg'
-    import { selected } from '../../stores/state'
+    import { selected, screen } from '../../stores/state'
 
     let allLieu, allPopulation
+
+    function next() {
+        screen.set(1)
+    }
 
     function toggleLieu (key, e) {
         if (key !== 'all' || (key === 'all' && $selected.population.length === 6))
@@ -118,7 +122,7 @@
 </style>
 
 <div class="menu">
-    <button class="chronology">Chronologie des dates ↓</button>
+    <button on:click={next} class="chronology">Chronologie des dates ↓</button>
 
     <ul>
         <span class="separator">Lieux de dates</span>

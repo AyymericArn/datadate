@@ -19,6 +19,10 @@
     // const notThatSimpleArrondissements = simplifier(arrondissements, 0.0002)
     const simpleArrondissements = simplifier(arrondissements, 0.002)
 
+    // props
+    export let stepped = false
+    export let index = 0
+
     let canvas, blobs, map, svg, ctx, ctx2
     // let zoomLevel = {val: 4}
     // let center = {x: -1077/1.3, y: -620/1.3}
@@ -43,10 +47,6 @@
         'employed': '#FFCC33',
         'retired':'#FF6AD5',
         'other': '#2A92E8'
-    }
-
-    function changeColor () {
-
     }
 
     function drawStreets () {
@@ -74,6 +74,7 @@
         ctx2.strokeStyle = '#ffffff88'
         ctx2.globalAlpha = 0.5
 
+        console.log(arrondissements.features[0].geometry.coordinates[0])
         for (const feature of arrondissements.features) {
             ctx2.beginPath()
             ctx.lineWidth = 2.0
@@ -91,19 +92,22 @@
     const responses = results.length
 
     function resizePoints () {
-        for (const feature of streets.features) {
-            for (let point of feature.geometry.coordinates) {
-                point = normalizePoint(point, svg.clientWidth/2 - 100, time)
-            }
-        }
+        // for (const feature of streets.features) {
+        //     for (let point of feature.geometry.coordinates) {
+        //         if (stepped) point = normalizePoint(point, svg.clientWidth/2 - 100, 0.5)
+        //         else point = normalizePoint(point, svg.clientWidth/2 - 100, 1)
+        //     }
+        // }
         for (const feature of arrondissements.features) {
             for (let point of feature.geometry.coordinates[0]) {
-                point = normalizePoint(point, svg.clientWidth/2 - 100, time)
+                if (!stepped) point = normalizePoint(point, svg.clientWidth/2 - 100, 1)
+                else point = normalizePoint(point, svg.clientWidth/2 - 100, 0.5)
             }
         }
         for (const feature of simpleArrondissements.features) {
             for (let point of feature.geometry.coordinates[0]) {
-                point = normalizePoint(point, svg.clientWidth/2 - 100, time)
+                if (!stepped) point = normalizePoint(point, svg.clientWidth/2 - 100, 1)
+                else point = normalizePoint(point, svg.clientWidth/2 - 100, 0.5)
             }
         }
     }
@@ -117,13 +121,10 @@
         ;results.forEach((_res) => {
             _res.meets.forEach(_meet => {
                 _meet.dates.forEach(_date => {
-                    console.log((_date.quartiers))
-                    console.log(parseInt(_date.quartiers))
                     if (!isNaN(parseInt(_date.quartiers))) visitors[parseInt(_date.quartiers)-1][_res.situation] += 1
                 })
             })
         })
-        console.log(visitors)
     }
 
     function drawBlobs () {
@@ -328,6 +329,7 @@
         drawBlobs()
         // drawStreets()
         if (shouldDrawMap) drawMap()
+        // console.log('render' + index + shouldDrawMap)
     }
     
     function animate() {
