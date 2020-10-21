@@ -160,7 +160,7 @@
                 }
 
                 ctx.fill(shape)
-                if (!isZooming && !state.isDragging) addPoints(shape, colors[population] )
+                if (!isZooming && !state.isDragging) addPoints(shape, population )
                 // ctx.fillStyle = 'white'
                 // ctx.fontSize = '16px'
                 // ctx.fontFamily = 'Arial'
@@ -178,32 +178,34 @@
 
         for (const _res of results) {
             if (_res.situation !== population) continue
-            _res.meets.forEach(_meet => {
-                _meet.dates.forEach(async _date => {
+            _res.meets.forEach(async _meet => {
+                for (const _date of _meet.dates) {
                     if (_date.address) {
-
+    
                         const geocoding = await geocode(_date.address)
-
+    
+                        if (!geocoding) continue
+    
                         let point = geocoding.features[0].geometry.coordinates
-
+    
                         if (!hasCache) point = normalizePoint(point, svg.clientWidth/2 - 100)
-
+    
                         // console.log(point)
                         // console.log(point[0] * zoomLevel.val + center.x)
                         // console.log(point[1] * zoomLevel.val + center.y)
-
+    
                         if (state.isZoomed) {
                             point[0] *= zoomLevel.val/1.15
                             point[0] += center.x/0.3
                             point[1] *= zoomLevel.val/1.15
                             point[1] += center.y/0.3
                         }
-
+    
                         if (!interestPointsCoords.some(_p => _p[0] === point[0])) {
                             console.log('PUSH')
                             interestPointsCoords.push(point)
                         }
-
+    
                         const gradient = ctx.createRadialGradient(
                             Math.round(point[0]),
                             Math.round(point[1]),
@@ -212,16 +214,16 @@
                             point[1],
                             6
                         )
-
+    
                         gradient.addColorStop(0, colors[population])
-
+    
                         gradient.addColorStop(1, 'rgba(255,106,213,0)');
-
+    
                         ctx.fillStyle = gradient
-
+    
                         ctx.fill(path)
                     }
-                })
+                }
             })
         }
     }
