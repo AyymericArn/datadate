@@ -20,12 +20,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="35aeb8ab-37e4-4e98-a3e1-6ca6a3de4836" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/stores/state.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Map/Map.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Map/Map.svelte" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Map/Menu.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Map/Menu.svelte" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/data/voie.geojson" beforeDir="false" afterPath="$PROJECT_DIR$/src/data/voie.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stores/state.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/stores/state.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -90,7 +88,7 @@
       <updated>1603115307922</updated>
       <workItem from="1603115309407" duration="7360000" />
       <workItem from="1603177538580" duration="23239000" />
-      <workItem from="1603264271493" duration="23119000" />
+      <workItem from="1603264271493" duration="25437000" />
     </task>
     <task id="LOCAL-00001" summary="intermediate stade for blobs">
       <created>1603194082669</created>
@@ -141,7 +139,21 @@
       <option name="project" value="LOCAL" />
       <updated>1603282026998</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="compute population">
+      <created>1603293960131</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1603293960131</updated>
+    </task>
+    <task id="LOCAL-00009" summary="compute population">
+      <created>1603293967941</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1603293967941</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -167,7 +179,8 @@
     <MESSAGE value="(wip) hover of points" />
     <MESSAGE value="basic zoom" />
     <MESSAGE value="basic drag" />
-    <option name="LAST_COMMIT_MESSAGE" value="basic drag" />
+    <MESSAGE value="compute population" />
+    <option name="LAST_COMMIT_MESSAGE" value="compute population" />
   </component>
   <component name="WindowStateProjectService">
     <state width="2518" height="338" key="GridCell.Tab.0.bottom" timestamp="1603286517869">
@@ -190,10 +203,10 @@
       <screen x="0" y="23" width="2560" height="1339" />
     </state>
     <state x="781" y="331" key="SettingsEditor/0.23.2560.1339@0.23.2560.1339" timestamp="1603285523337" />
-    <state x="880" y="432" key="Vcs.Push.Dialog.v2" timestamp="1603282031754">
+    <state x="880" y="432" key="Vcs.Push.Dialog.v2" timestamp="1603293978379">
       <screen x="0" y="23" width="2560" height="1339" />
     </state>
-    <state x="880" y="432" key="Vcs.Push.Dialog.v2/0.23.2560.1339@0.23.2560.1339" timestamp="1603282031754" />
+    <state x="880" y="432" key="Vcs.Push.Dialog.v2/0.23.2560.1339@0.23.2560.1339" timestamp="1603293978379" />
     <state x="1072" y="613" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1603264309480">
       <screen x="0" y="23" width="2560" height="1339" />
     </state>

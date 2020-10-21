@@ -125,52 +125,37 @@
         ctx.fillStyle = '#fff'
         ctx.strokeStyle = '#fff'
 
-        const zonesToFill = {
-            'transparent': [],
-            'rgba(255, 106, 213, 0.4)': [],
-            'rgba(255, 106, 213, 0.6)': [],
-            'rgba(255, 106, 213, 0.8)': [],
+        for (const population of [0]) {
+            for (const [index, feature] of simpleArrondissements.features.entries()) {
+                // ctx.beginPath()
+
+                const shape = new Path2D()
+                const points = feature.geometry.coordinates[0]
+                var line = d3.line().context(shape).curve(d3.curveBundle.beta(1))
+                line(points)
+                shape.closePath()
+
+                ctx.fillStyle = 'transparent'
+                if ( visitors[index].alternant/responses > 0.1 ) {
+                    ctx.fillStyle = 'rgba(255, 106, 213)'
+                    ctx.globalAlpha = 0.4
+                }
+                if ( visitors[index].alternant/responses > 0.4 ) {
+                    ctx.fillStyle = 'rgba(255, 106, 213, 0.6)'
+                }
+                if ( visitors[index].alternant/responses > 0.7 ) {
+                    ctx.fillStyle = 'rgba(255, 106, 213, 0.8)'
+                }
+
+                ctx.fill(shape)
+                if (!isZooming && !state.isDragging) addPoints(shape)
+                // ctx.fillStyle = 'white'
+                // ctx.fontSize = '16px'
+                // ctx.fontFamily = 'Arial'
+                // ctx.fillText(index.toString(), feature.geometry.coordinates[0][0] + 50, feature.geometry.coordinates[0][1] + 50)
+            }
         }
 
-        for (const [index, feature] of simpleArrondissements.features.entries()) {
-            // ctx.beginPath()
-
-            const shape = new Path2D()
-            const points = feature.geometry.coordinates[0]
-            var line = d3.line().context(shape).curve(d3.curveBundle.beta(1))
-            line(points)
-            shape.closePath()
-
-            // const visitors =
-            //     results.reduce((acc, _res) =>
-            //         acc + _res.meets
-            //             .reduce((acc, _meet) =>
-            //                 acc + _meet.dates
-            //                     .reduce((acc, _date) =>
-            //                         acc + Number((index+1) === parseInt(_date.quartiers)), 0
-            //                     ), 0), 0);
-
-            // if (visitors) zonesToFill.push(index)
-
-            ctx.fillStyle = 'transparent'
-            if ( visitors[index].alternant/responses > 0.1 ) {
-                ctx.fillStyle = 'rgba(255, 106, 213)'
-                ctx.globalAlpha = 0.4
-            }
-            if ( visitors[index].alternant/responses > 0.4 ) {
-                ctx.fillStyle = 'rgba(255, 106, 213, 0.6)'
-            }
-            if ( visitors[index].alternant/responses > 0.7 ) {
-                ctx.fillStyle = 'rgba(255, 106, 213, 0.8)'
-            }
-
-            ctx.fill(shape)
-            if (!isZooming && !state.isDragging) addPoints(shape)
-            // ctx.fillStyle = 'white'
-            // ctx.fontSize = '16px'
-            // ctx.fontFamily = 'Arial'
-            // ctx.fillText(index.toString(), feature.geometry.coordinates[0][0] + 50, feature.geometry.coordinates[0][1] + 50)
-        }
         ctx.restore()
     }
 
@@ -274,6 +259,7 @@
         console.log('interespoint', interestPointsCoords)
         console.log('clicked')
         console.log(e)
+        console.log($selected)
         if (overPoint) {
             zoom(interestPointsCoords[overPoint])
         }

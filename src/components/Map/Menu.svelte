@@ -2,15 +2,22 @@
     import scaleSrc from '../../assets/Echelle.svg'
     import { selected } from '../../stores/state'
 
-    function changePopulation (index) {
+    function togglePopulation (key, e) {
+        console.log(e)
         selected.update(s => {
-            return {...s, population: index}
+            !s.population.includes(key) ? s.population.push(key) : s.population.splice(s.population.indexOf(key), 1);
+            return s
         })
+
+        e.target.classList.toggle('selected')
     }
-    function changeLieu (index) {
+    function toggleLieu (key, e) {
         selected.update(s => {
-            return {...s, lieu: index}
+            !s.lieu.includes(key) ? s.lieu.push(key) : s.lieu.splice(s.lieu.indexOf(key), 1);
+            return s
         })
+
+        e.target.classList.toggle('selected')
     }
 </script>
 
@@ -61,8 +68,8 @@
             &:focus
                 outline none
 
-            &.selected
-              font-weight bold
+            li.selected
+                font-weight bold
 
           .separator
             margin-top 46px
@@ -94,19 +101,20 @@
 
     <ul>
         <span class="separator">Lieux de dates</span>
-        <button on:click={() => changePopulation(0)}><li>TOUS</li></button>
-        <button on:click={() => changePopulation(1)}><li>Bars</li></button>
-        <button on:click={() => changePopulation(2)}><li>Restaurants</li></button>
-        <button on:click={() => changePopulation(3)}><li>Cinémas</li></button>
-        <button on:click={() => changePopulation(4)}><li>Concerts</li></button>
-        <button on:click={() => changePopulation(5)}><li>Musée</li></button>
-        <button on:click={() => changePopulation(6)}><li>Parc</li></button>
+        <button on:click={(e) => togglePopulation("all", e)}><li>TOUS</li></button>
+        <button on:click={(e) => togglePopulation("Bar", e)}><li>Bars</li></button>
+        <button on:click={(e) => togglePopulation("Restaurant", e)}><li>Restaurants</li></button>
+        <button on:click={(e) => togglePopulation("Cinéma", e)}><li>Cinémas</li></button>
+        <button on:click={(e) => togglePopulation("Concert", e)}><li>Concerts</li></button>
+        <button on:click={(e) => togglePopulation("Musée", e)}><li>Musée</li></button>
+        <button on:click={(e) => togglePopulation("Parc", e)}><li>Parc</li></button>
         <span class="separator">Population</span>
-        <button on:click={() => changeLieu(0)}><li>TOUS</li></button>
-        <button on:click={() => changeLieu(1)}><li>Étudiant.e.s</li></button>
-        <button on:click={() => changeLieu(2)}><li>Alternant.e.s</li></button>
-        <button on:click={() => changeLieu(3)}><li>Sans-emploi</li></button>
-        <button on:click={() => changeLieu(4)}><li>Séniors</li></button>
+        <button on:click={(e) => toggleLieu("all", e)}><li>TOUS</li></button>
+        <button on:click={(e) => toggleLieu("student", e)}><li>Étudiant.e.s</li></button>
+        <button on:click={(e) => toggleLieu("alternant", e)}><li>Alternant.e.s</li></button>
+        <button on:click={(e) => toggleLieu("jobless", e)}><li>Sans-emploi</li></button>
+        <button on:click={(e) => toggleLieu("retired", e)}><li>Retraité.e.s</li></button>
+        <button on:click={(e) => toggleLieu("other", e)}><li>Autres</li></button>
         <input type="button" value="Détails par arrondissements">
         <img src={scaleSrc} alt="scale">
     </ul>
