@@ -24,12 +24,12 @@
 
     function togglePopulation (key, e) {
 
-        if (key !== 'all' || (key === 'all' && $selected.population.length === 5))
+        if (key !== 'all' || (key === 'all' && $selected.population.length === 6))
             allPopulation.classList.remove('selection')
 
         if (key === 'all') {
             selected.update(s => {
-                return {...s, population: ['alternants', 'student', 'jobless', 'retired', 'employed']}
+                return {...s, population: ['alternants', 'student', 'jobless', 'retired', 'employed', 'other']}
             })
         } else {
             selected.update(s => {
@@ -133,6 +133,7 @@
         <button bind:this={allPopulation} on:click={(e) => togglePopulation("all", e)}><li>TOUS</li></button>
         <button on:click={(e) => togglePopulation("student", e)}><li>Étudiant.e.s</li></button>
         <button on:click={(e) => togglePopulation("alternant", e)}><li>Alternant.e.s</li></button>
+        <button on:click={(e) => togglePopulation("employed", e)}><li>Salarié.e.s</li></button>
         <button on:click={(e) => togglePopulation("jobless", e)}><li>Sans-emploi</li></button>
         <button on:click={(e) => togglePopulation("retired", e)}><li>Retraité.e.s</li></button>
         <button on:click={(e) => togglePopulation("other", e)}><li>Autres</li></button>

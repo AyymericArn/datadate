@@ -36,6 +36,15 @@
         time++
     }, 1000);
 
+    const colors = {
+        'alternant':'#5E02D4',
+        'student': '#FF6B00',
+        'jobless':'#00FFC2',
+        'employed': '#FFCC33',
+        'retired':'#FF6AD5',
+        'other': '#2A92E8'
+    }
+
     function changeColor () {
 
     }
@@ -125,7 +134,8 @@
         ctx.fillStyle = '#fff'
         ctx.strokeStyle = '#fff'
 
-        for (const population of [0]) {
+        for (const population of $selected.population) {
+            console.log(population)
             for (const [index, feature] of simpleArrondissements.features.entries()) {
                 // ctx.beginPath()
 
@@ -136,15 +146,17 @@
                 shape.closePath()
 
                 ctx.fillStyle = 'transparent'
-                if ( visitors[index].alternant/responses > 0.1 ) {
-                    ctx.fillStyle = 'rgba(255, 106, 213)'
+                if ( visitors[index][population]/responses > 0.1 ) {
+                    ctx.fillStyle = colors[population]
                     ctx.globalAlpha = 0.4
                 }
-                if ( visitors[index].alternant/responses > 0.4 ) {
-                    ctx.fillStyle = 'rgba(255, 106, 213, 0.6)'
+                if ( visitors[index][population]/responses > 0.4 ) {
+                    ctx.fillStyle = colors[population]
+                    ctx.globalAlpha = 0.6
                 }
-                if ( visitors[index].alternant/responses > 0.7 ) {
-                    ctx.fillStyle = 'rgba(255, 106, 213, 0.8)'
+                if ( visitors[index][population]/responses > 0.7 ) {
+                    ctx.fillStyle = colors[population]
+                    ctx.globalAlpha = 0.8
                 }
 
                 ctx.fill(shape)
@@ -300,24 +312,16 @@
             .onComplete(() => {
                 isZooming = false
                 render()
-                setTimeout(() => {
-                    console.log('interespoint', interestPointsCoords)
-
-                }, 5000)
             })
-        // isZooming = false
     }
 
     function render () {
-        console.log('render')
         ctx.save()
         ctx.translate(0, 0)
         ctx2.translate(0, 0)
         ctx.clearRect(0, 0, blobs.width*window.devicePixelRatio+translation.x, blobs.height*window.devicePixelRatio-translation.y)
         ctx2.clearRect(0, 0, map.width*window.devicePixelRatio+translation.x, map.height*window.devicePixelRatio-translation.y)
         ctx.restore()
-        // blobs.width = blobs.width
-        // map.width = map.width
         drawBlobs()
         // drawStreets()
         if (shouldDrawMap) drawMap()
@@ -371,6 +375,10 @@
         animate()
         shouldRender = false
         // addPoints()
+
+        selected.subscribe(val => {
+            render()
+        })
 
         // window.time = 1
         // setInterval(() => {
