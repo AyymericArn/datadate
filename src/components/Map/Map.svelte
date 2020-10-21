@@ -24,23 +24,15 @@
     let center = {x: 0, y: 0}
     let shouldRender = false, isZooming = false
     let state = {
-        isZoomed: false
+        isZoomed: false,
+        isDragging: false
     }
+    let shouldDrawMap = true
 
     let time = 0
     setInterval(() => {
         time++
     }, 1000);
-
-    function isVertical ([cx, cy], [dx, dy]) {
-        console.log(arguments)
-        const angle = trigoangle(arguments[0], arguments[1])
-        if (
-            (angle > 45 && angle < 135) ||
-            (angle > 225 && angle < 345)
-        ) return true
-        else return false
-    }
 
     function drawMap () {
         // ctx2.moveTo(10, 10)
@@ -127,7 +119,7 @@
             }
 
             ctx.fill(shape)
-            if (!isZooming) addPoints(shape)
+            if (!isZooming && !state.isDragging) addPoints(shape)
             // ctx.fillStyle = 'white'
             // ctx.fontSize = '16px'
             // ctx.fontFamily = 'Arial'
@@ -139,27 +131,37 @@
     let interestPointsCoords = [], interestPointsAddresses = []
     let geocoding
     function addPoints (path) {
-        console.log('addPoints')
         const hasCache = !!geocoding
         results.forEach(_res => {
             _res.meets.forEach(_meet => {
                 _meet.dates.forEach(async _date => {
                     if (_date.address) {
 
-                        geocoding = await geocode(_date.address)
+                        const geocoding = await geocode(_date.address)
 
                         let point = geocoding.features[0].geometry.coordinates
 
                         if (!hasCache) point = normalizePoint(point, svg.clientWidth/2 - 100)
 
                         if (!hasCache) interestPointsCoords.push(point)
-                        console.log(point)
+
+                        // console.log(point)
+                        // console.log(point[0] * zoomLevel.val + center.x)
+                        // console.log(point[1] * zoomLevel.val + center.y)
+
+                        if (state.isZoomed) {
+                            point[0] *= zoomLevel.val/1.15
+                            point[0] += center.x/0.3
+                            point[1] *= zoomLevel.val/1.15
+                            point[1] += center.y/0.3
+                        }
+
                         const gradient = ctx.createRadialGradient(
-                            Math.round(point[0] * zoomLevel.val + center.x),
-                            Math.round(point[1] * zoomLevel.val + center.y),
+                            Math.round(point[0]),
+                            Math.round(point[1]),
                             5,
-                            point[0] * zoomLevel.val + center.x,
-                            point[1] * zoomLevel.val + center.y,
+                            point[0],
+                            point[1],
                             30
                         )
 
@@ -184,11 +186,19 @@
 
     let overPoint
     function handleMouseMove (e) {
-        if (state.isZoomed) {e.target.style.cursor = 'initial'; overPoint = undefined; return;}
         // const clientX = window.innerWidth - e.clientX
-        const clientX = e.clientX
-        const clientY = window.innerHeight - e.clientY
+        let clientX = e.clientX
+        let clientY = window.innerHeight - e.clientY
+
+        if (state.isZoomed) {
+            clientX *= zoomLevel.val/1.15
+            clientX += center.x/0.3
+            clientY *= zoomLevel.val/1.15
+            clientY += center.y/0.3
+        }
+
         let isOverPoint = false
+
         for (const [index, interestPoint] of interestPointsCoords.entries()) {
             if (distance([clientX, clientY], interestPoint) < 30) {isOverPoint = true; overPoint = index;}
         }
@@ -197,11 +207,41 @@
         else {e.target.style.cursor = 'initial'; overPoint = undefined;}
     }
 
+    let mousePosition = {x: 0, y: 0}
+    let translation = {x: 0, y: 0}
+    function updateMousePosition(e) {
+        mousePosition.x = e.clientX
+        mousePosition.y = e.clientY
+        translation.x = (e.clientX - mouseBasePosition.x)/50
+        translation.y = (-(e.clientY - mouseBasePosition.y))/50
+        if (mouseDown) {
+            ctx.translate(translation.x, translation.y)
+            ctx2.translate(translation.x, translation.y)
+        }
+    }
+
     function handleClick() {
         console.log('clicked')
         if (overPoint) {
             zoom(interestPointsCoords[overPoint])
         }
+    }
+
+    let mouseDown = false, mouseBasePosition = {x: 0, y: 0}
+    function handleMouseDown (e) {
+        shouldRender = true
+        shouldDrawMap = false
+        state.isDragging = true
+        mouseDown = true
+        mouseBasePosition.x = e.clientX
+        mouseBasePosition.y = e.clientY
+    }
+    function handleMouseUp (e) {
+        shouldDrawMap = true
+        shouldRender = false
+        mouseDown = false
+        state.isDragging = false
+        render()
     }
 
     function zoom(pos) {
@@ -228,10 +268,16 @@
 
     function render () {
         console.log('render')
-        ctx.clearRect(0, 0, innerWidth, innerHeight)
-        ctx2.clearRect(0, 0, innerWidth, innerHeight)
+        ctx.save()
+        ctx.translate(0, 0)
+        ctx2.translate(0, 0)
+        ctx.clearRect(0, 0, blobs.width*window.devicePixelRatio+translation.x, blobs.height*window.devicePixelRatio-translation.y)
+        ctx2.clearRect(0, 0, map.width*window.devicePixelRatio+translation.x, map.height*window.devicePixelRatio-translation.y)
+        ctx.restore()
+        // blobs.width = blobs.width
+        // map.width = map.width
         drawBlobs()
-        drawMap()
+        if (shouldDrawMap) drawMap()
     }
     
     function animate() {
@@ -287,6 +333,11 @@
         // }, 1000);
 
         window.addEventListener('resize', resize)
+        window.addEventListener('touchstart', handleMouseDown)
+        window.addEventListener('touchend', handleMouseUp)
+        window.addEventListener('mousedown', handleMouseDown)
+        window.addEventListener('mouseup', handleMouseUp)
+        window.addEventListener('mousemove', updateMousePosition)
     })
 
 
