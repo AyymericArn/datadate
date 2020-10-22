@@ -24,8 +24,9 @@
     <Map></Map>
     {:else if $screen === 1}
       <!-- <Map index={0} stepped={true}></Map> -->
-      <Map index={1} stepped={true}></Map>
-      <Map index={2} stepped={true}></Map>
+      <Map index={0} position={-1} stepped={true}></Map>
+      <Map index={1} position={0} stepped={true}></Map>
+      <Map index={2} position={1} stepped={true}></Map>
     {/if}
     <Menu></Menu>
 </div>

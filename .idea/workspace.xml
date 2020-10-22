@@ -22,8 +22,7 @@
     <list default="true" id="35aeb8ab-37e4-4e98-a3e1-6ca6a3de4836" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Map/Map.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Map/Map.svelte" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/routes/index.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/index.svelte" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/webpack.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/webpack.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/routes/map.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/map.svelte" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -95,6 +94,7 @@
       <workItem from="1603177538580" duration="23239000" />
       <workItem from="1603264271493" duration="29835000" />
       <workItem from="1603350621101" duration="24511000" />
+      <workItem from="1603404957743" duration="3761000" />
     </task>
     <task id="LOCAL-00001" summary="intermediate stade for blobs">
       <created>1603194082669</created>
@@ -229,7 +229,14 @@
       <option name="project" value="LOCAL" />
       <updated>1603399767716</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="heartbeat ok">
+      <created>1603403569091</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1603403569091</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -266,28 +273,29 @@
     <MESSAGE value="hot zone calculation and detection ok" />
     <MESSAGE value="zoom à peu près ok" />
     <MESSAGE value="redraw and drag fine" />
-    <option name="LAST_COMMIT_MESSAGE" value="redraw and drag fine" />
+    <MESSAGE value="heartbeat ok" />
+    <option name="LAST_COMMIT_MESSAGE" value="heartbeat ok" />
   </component>
   <component name="WindowStateProjectService">
-    <state width="1899" height="233" key="GridCell.Tab.0.bottom" timestamp="1603402148678">
+    <state width="1899" height="233" key="GridCell.Tab.0.bottom" timestamp="1603404681102">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="233" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1603402148678" />
+    <state width="1899" height="233" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1603404681102" />
     <state width="2518" height="338" key="GridCell.Tab.0.bottom/0.23.2560.1339@0.23.2560.1339" timestamp="1603383793588" />
-    <state width="1899" height="233" key="GridCell.Tab.0.center" timestamp="1603402148677">
+    <state width="1899" height="233" key="GridCell.Tab.0.center" timestamp="1603404681102">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="233" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1603402148677" />
+    <state width="1899" height="233" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1603404681102" />
     <state width="2518" height="338" key="GridCell.Tab.0.center/0.23.2560.1339@0.23.2560.1339" timestamp="1603383793587" />
-    <state width="1899" height="233" key="GridCell.Tab.0.left" timestamp="1603402148677">
+    <state width="1899" height="233" key="GridCell.Tab.0.left" timestamp="1603404681102">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="233" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1603402148677" />
+    <state width="1899" height="233" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1603404681102" />
     <state width="2518" height="338" key="GridCell.Tab.0.left/0.23.2560.1339@0.23.2560.1339" timestamp="1603383793587" />
-    <state width="1899" height="233" key="GridCell.Tab.0.right" timestamp="1603402148678">
+    <state width="1899" height="233" key="GridCell.Tab.0.right" timestamp="1603404681102">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="233" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1603402148678" />
+    <state width="1899" height="233" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1603404681102" />
     <state width="2518" height="338" key="GridCell.Tab.0.right/0.23.2560.1339@0.23.2560.1339" timestamp="1603383793587" />
     <state x="781" y="331" key="SettingsEditor" timestamp="1603285523337">
       <screen x="0" y="23" width="2560" height="1339" />
@@ -297,10 +305,10 @@
       <screen x="0" y="23" width="2560" height="1339" />
     </state>
     <state width="500" height="445" key="SwitcherDM/0.23.2560.1339@0.23.2560.1339" timestamp="1603387086126" />
-    <state x="660" y="318" key="Vcs.Push.Dialog.v2" timestamp="1603399771102">
+    <state x="660" y="318" key="Vcs.Push.Dialog.v2" timestamp="1603403577340">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="660" y="318" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1603399771102" />
+    <state x="660" y="318" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1603403577340" />
     <state x="880" y="432" key="Vcs.Push.Dialog.v2/0.23.2560.1339@0.23.2560.1339" timestamp="1603386823634" />
     <state x="1072" y="613" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1603350637544">
       <screen x="0" y="23" width="2560" height="1339" />

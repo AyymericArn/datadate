@@ -3,6 +3,7 @@
     import mapSrc from '../../assets/DessinArrondissement.svg'
     import arrondissements from '../../data/arrondissements.geo.json'
     import streets from '../../data/voie.json'
+    import seine from '../../data/seine.json'
     import results from '../../data/results.json'
 
     import { onMount } from 'svelte'
@@ -23,9 +24,13 @@
     const notThatSimpleArrondissements = simplifier(arrondissements, 0.0002)
     const simpleArrondissements = simplifier(arrondissements, 0.002)
 
+    const simpleStreets = simplifier(streets, 0.002)
+    const simpleSeine = simplifier(seine, 0.002)
+
     // props
     export let stepped = false
     export let index = 0
+    export let position = 0
 
     let heartBeat
 
@@ -34,6 +39,10 @@
     // let center = {x: -1077/1.3, y: -620/1.3}
     let zoomLevel = {val: 1}
     let center = {x: 0, y: 0}
+    if (stepped) {
+        center.x = position*600
+        center.y = 250
+    }
     let shouldRender = false, isZooming = false
     let state = {
         hasHBHighRate: false,
@@ -76,15 +85,34 @@
         // ctx2.save()
         // ctx2.scale(zoomLevel.val, zoomLevel.val)
         // ctx2.translate(center.x, center.y)
-        // ctx2.fillStyle='#fff'
-        for (const feature of streets.features) {
+        ctx2.fillStyle='#232323'
+        ctx2.lineWidth=1
+        for (const feature of simpleStreets.features) {
+            ctx2.beginPath()
             for (const point of feature.geometry.coordinates) {
                 // console.log(point)
                 ctx2.lineTo(point[0], point[1])
                 ctx2.stroke()
             }
+            ctx2.closePath()
         }
         // ctx2.restore()
+    }
+
+    function drawSeine () {
+        ctx2.globalAlpha = 0.9
+        ctx2.fillStyle='#2F4545'
+        console.log('drawseine')
+        for (const feature of simpleSeine.features) {
+            console.log(feature)
+            ctx2.beginPath()
+            for (const point of feature.geometry.coordinates[0]) {
+                // console.log(point)
+                ctx2.lineTo(point[0], point[1])
+            }
+            ctx2.closePath()
+            ctx2.fill()
+        }
     }
 
     async function drawMap () {
@@ -107,18 +135,19 @@
             }
             ctx2.closePath()
         }
-        // drawStreets()
+        if (zoomLevel.val >= 4) drawStreets()
+        drawSeine()
         ctx2.restore()
     }
 
     function resizePoints () {
-        // for (const feature of streets.features) {
-        //     for (let point of feature.geometry.coordinates) {
-        //         if (stepped) point = normalizePoint(point, svg.clientWidth/2 - 100, 0.5)
-        //         else point = normalizePoint(point, svg.clientWidth/2 - 100, 1)
-        //     }
-        // }
-        for (const feature of arrondissements.features) {
+        for (const feature of simpleStreets.features) {
+            for (let point of feature.geometry.coordinates) {
+                if (stepped) point = normalizePoint(point, svg.clientWidth/2 - 100, 0.5)
+                else point = normalizePoint(point, svg.clientWidth/2 - 100, 1)
+            }
+        }
+        for (const feature of simpleSeine.features) {
             for (let point of feature.geometry.coordinates[0]) {
                 if (!stepped) point = normalizePoint(point, svg.clientWidth/2 - 100, 1)
                 else point = normalizePoint(point, svg.clientWidth/2 - 100, 0.5)
