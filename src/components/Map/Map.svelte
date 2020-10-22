@@ -16,7 +16,9 @@
     // const randf = require('randf')
     const simplifier = require('simplify-geojson')
     const TWEEN = require('@tweenjs/tween.js')
-    // const notThatSimpleArrondissements = simplifier(arrondissements, 0.0002)
+    const inside = require('point-in-polygon')
+
+    const notThatSimpleArrondissements = simplifier(arrondissements, 0.0002)
     const simpleArrondissements = simplifier(arrondissements, 0.002)
 
     // props
@@ -75,7 +77,7 @@
         ctx2.globalAlpha = 0.5
 
         // console.log(arrondissements.features[0].geometry.coordinates[0])
-        for (const feature of arrondissements.features) {
+        for (const feature of notThatSimpleArrondissements.features) {
             ctx2.beginPath()
             ctx2.lineWidth = 3.0
             let prevPoint = feature.geometry.coordinates[0][0]
@@ -89,8 +91,6 @@
         ctx2.restore()
     }
 
-    const responses = results.length
-
     function resizePoints () {
         // for (const feature of streets.features) {
         //     for (let point of feature.geometry.coordinates) {
@@ -99,6 +99,12 @@
         //     }
         // }
         for (const feature of arrondissements.features) {
+            for (let point of feature.geometry.coordinates[0]) {
+                if (!stepped) point = normalizePoint(point, svg.clientWidth/2 - 100, 1)
+                else point = normalizePoint(point, svg.clientWidth/2 - 100, 0.5)
+            }
+        }
+        for (const feature of notThatSimpleArrondissements.features) {
             for (let point of feature.geometry.coordinates[0]) {
                 if (!stepped) point = normalizePoint(point, svg.clientWidth/2 - 100, 1)
                 else point = normalizePoint(point, svg.clientWidth/2 - 100, 0.5)
@@ -125,8 +131,11 @@
                 })
             })
         })
+
+        console.log('visitors', visitors)
     }
 
+    let hotZones = []
     function drawBlobs () {
         ctx.save()
         ctx.scale(zoomLevel.val, zoomLevel.val)
@@ -136,26 +145,32 @@
         ctx.strokeStyle = '#fff'
 
         for (const population of $selected.population) {
-            console.log(population)
+            const totalPop = results.reduce((acc, _res) => {
+                if (_res.situation === population) return acc + 1
+                return acc
+            }, 0)
+            console.log(population, totalPop)
             for (const [index, feature] of simpleArrondissements.features.entries()) {
                 // ctx.beginPath()
 
                 const shape = new Path2D()
                 const points = feature.geometry.coordinates[0]
-                var line = d3.line().context(shape).curve(d3.curveBundle.beta(1))
+                const line = d3.line().context(shape).curve(d3.curveBundle.beta(1))
                 line(points)
                 shape.closePath()
 
                 ctx.fillStyle = 'transparent'
-                if ( visitors[index][population]/responses > 0.1 ) {
+                if ( visitors[index][population]/totalPop >= 0.1 ) {
                     ctx.fillStyle = colors[population]
                     ctx.globalAlpha = 0.4
                 }
-                if ( visitors[index][population]/responses > 0.4 ) {
+                if ( visitors[index][population]/totalPop >= 0.4 ) {
                     ctx.fillStyle = colors[population]
                     ctx.globalAlpha = 0.6
+                    if (!hotZones.some(_z => (_z[0][0] === points[0][0] && _z[0][1] === points[0][1])))
+                        hotZones.push(points)
                 }
-                if ( visitors[index][population]/responses > 0.7 ) {
+                if ( visitors[index][population]/totalPop >= 0.7 ) {
                     ctx.fillStyle = colors[population]
                     ctx.globalAlpha = 0.8
                 }
@@ -268,6 +283,10 @@
 
         if (isOverPoint) e.target.style.cursor = 'pointer'
         else {e.target.style.cursor = 'initial'; overPoint = undefined;}
+
+        for (const hotZone of hotZones) {
+            if (inside([clientX, clientY], hotZone)) console.log('inside hot zone !')
+        }
     }
 
     let mousePosition = {x: 0, y: 0}
@@ -304,14 +323,14 @@
     let mouseDown = false, mouseBasePosition = {x: 0, y: 0}
     function handleMouseDown (e) {
         shouldRender = true
-        shouldDrawMap = false
+        // shouldDrawMap = false
         state.isDragging = true
         mouseDown = true
         mouseBasePosition.x = e.clientX
         mouseBasePosition.y = e.clientY
     }
     function handleMouseUp (e) {
-        shouldDrawMap = true
+        // shouldDrawMap = true
         shouldRender = false
         mouseDown = false
         state.isDragging = false
@@ -333,7 +352,6 @@
             .easing(TWEEN.Easing.Quadratic.Out)
             .start()
             .onComplete(() => shouldRender = false)
-        console.log(pos)
         const translate = new TWEEN.Tween(center)
             .to({x: -pos[0] / 1.35, y: -pos[1] / 1.35}, 1000)
             .easing(TWEEN.Easing.Quadratic.Out)
@@ -419,9 +437,9 @@
         // ctx2 = enableWebGLCanvas( map );
 
         // smoothing
-        ctx.imageSmoothingEnabled = true
+        // ctx.imageSmoothingEnabled = true
         // ctx.translate(0.5,0.5)
-        ctx2.imageSmoothingEnabled = true
+        // ctx2.imageSmoothingEnabled = true
         // ctx.translate(0.5,0.5);
 
         extractVisitors()

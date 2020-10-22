@@ -56,6 +56,7 @@
 			display flex
 			flex-direction column
 			justify-content center
+			align-items center
 			animation pop 1s cubic-bezier(.17,.67,.13,1.02) 1 1s
 			animation-fill-mode both
 
@@ -75,9 +76,12 @@
 				font-family: Shrikhand;
 				font-style: normal;
 				font-weight: normal;
-				font-size: 32px;
+				font-size: 20px;
 				line-height: 115.7%;
 				cursor pointer
+				margin-top 24px
+				padding 8px 12px
+				width max-content
 
 		.animator
 			position absolute
@@ -112,7 +116,7 @@
 	<div class="center">
 		<p>Où dates-tu dans Paris ?</p>
 		
-		<button on:click={enter}>Trouver une addresse</button>
+		<button on:click={enter}>Trouver une adresse</button>
 	</div>
 	<div class="letter"></div>
 </div>
