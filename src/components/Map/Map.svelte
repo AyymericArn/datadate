@@ -310,8 +310,10 @@
         mousePosition.x = e.clientX
         mousePosition.y = e.clientY
         if (mouseDown) {
-            translation.x = (e.clientX - mouseBasePosition.x)/50
-            translation.y = (-(e.clientY - mouseBasePosition.y))/50
+            translation.x = (e.clientX - mouseBasePosition.x)/zoomLevel.val
+            translation.y = (-(e.clientY - mouseBasePosition.y))/zoomLevel.val
+            ctx.resetTransform()
+            ctx2.resetTransform()
             ctx.translate(translation.x, translation.y)
             ctx2.translate(translation.x, translation.y)
         }
@@ -420,8 +422,8 @@
         ctx2.translate(0, 0)
         // ctx.setTransform(1, 0, 0, 1, 0, 0);
         // ctx2.setTransform(1, 0, 0, 1, 0, 0);
-        ctx.clearRect(0, 0, blobs.width*window.devicePixelRatio+translation.x, blobs.height*window.devicePixelRatio-translation.y)
-        ctx2.clearRect(0, 0, map.width*window.devicePixelRatio+translation.x, map.height*window.devicePixelRatio-translation.y)
+        ctx.clearRect(0-Math.abs(translation.x*zoomLevel.val), 0-Math.abs(translation.y*zoomLevel.val), blobs.width*window.devicePixelRatio*zoomLevel.val, blobs.height*window.devicePixelRatio*zoomLevel.val)
+        ctx2.clearRect(0-Math.abs(translation.x*zoomLevel.val), 0-Math.abs(translation.y*zoomLevel.val), map.width*window.devicePixelRatio*zoomLevel.val, map.height*window.devicePixelRatio*zoomLevel.val)
         ctx.restore()
         drawBlobs()
         // drawStreets()

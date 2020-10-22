@@ -213,7 +213,14 @@
       <option name="project" value="LOCAL" />
       <updated>1603386819967</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="zoom à peu près ok">
+      <created>1603397664940</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1603397664940</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -248,7 +255,8 @@
     <MESSAGE value="anim pin" />
     <MESSAGE value="stroke ok" />
     <MESSAGE value="hot zone calculation and detection ok" />
-    <option name="LAST_COMMIT_MESSAGE" value="hot zone calculation and detection ok" />
+    <MESSAGE value="zoom à peu près ok" />
+    <option name="LAST_COMMIT_MESSAGE" value="zoom à peu près ok" />
   </component>
   <component name="WindowStateProjectService">
     <state width="1899" height="282" key="GridCell.Tab.0.bottom" timestamp="1603392297754">
@@ -279,9 +287,10 @@
       <screen x="0" y="23" width="2560" height="1339" />
     </state>
     <state width="500" height="445" key="SwitcherDM/0.23.2560.1339@0.23.2560.1339" timestamp="1603387086126" />
-    <state x="880" y="432" key="Vcs.Push.Dialog.v2" timestamp="1603386823634">
-      <screen x="0" y="23" width="2560" height="1339" />
+    <state x="660" y="318" key="Vcs.Push.Dialog.v2" timestamp="1603397676439">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
+    <state x="660" y="318" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1603397676439" />
     <state x="880" y="432" key="Vcs.Push.Dialog.v2/0.23.2560.1339@0.23.2560.1339" timestamp="1603386823634" />
     <state x="1072" y="613" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1603350637544">
       <screen x="0" y="23" width="2560" height="1339" />
