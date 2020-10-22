@@ -355,31 +355,23 @@
     function zoomScroll(e) {
         console.log(e.deltaY)
         if (e.deltaY < 0 && zoomLevel.val < zoomValues.canvas.zoom.max) {
-            shouldRender = true
-            new TWEEN.Tween(zoomLevel)
-                .to({val: zoomLevel.val + 0.5}, 100)
-                .easing(TWEEN.Easing.Quadratic.Out)
-                .start()
-                .onComplete(() => shouldRender = false)
+            if (isZooming) return
+            zoom([mousePosition.x/2 -center.x , (window.innerHeight - mousePosition.y)/2 - center.y], zoomLevel.val + 0.5)
         }
         if (e.deltaY > 0 && zoomLevel.val > zoomValues.canvas.zoom.min) {
-            shouldRender = true
-            new TWEEN.Tween(zoomLevel)
-                .to({val: zoomLevel.val + 0.5}, 100)
-                .easing(TWEEN.Easing.Quadratic.Out)
-                .start()
-                .onComplete(() => shouldRender = false)
+            if (isZooming) return
+            zoom([Math.abs(center.x), Math.abs(center.y)], zoomLevel.val - 0.5)
         }
     }
 
-    function zoom(pos) {
+    function zoom(pos, factor = 4) {
         // console.log('zoomed');
         shouldRender = true
         isZooming = true
         state.isZoomed = true
         vignetting.style.opacity = 1
         const scale = new TWEEN.Tween(zoomLevel)
-            .to({val: 4}, 1000)
+            .to({val: factor}, 1000)
             .easing(TWEEN.Easing.Quadratic.Out)
             .start()
             .onComplete(() => shouldRender = false)
@@ -426,6 +418,8 @@
         ctx.save()
         ctx.translate(0, 0)
         ctx2.translate(0, 0)
+        // ctx.setTransform(1, 0, 0, 1, 0, 0);
+        // ctx2.setTransform(1, 0, 0, 1, 0, 0);
         ctx.clearRect(0, 0, blobs.width*window.devicePixelRatio+translation.x, blobs.height*window.devicePixelRatio-translation.y)
         ctx2.clearRect(0, 0, map.width*window.devicePixelRatio+translation.x, map.height*window.devicePixelRatio-translation.y)
         ctx.restore()
