@@ -15,6 +15,8 @@
 
 	onMount(async () => {
 		title.innerHTML = title.textContent.replace(/\S/g, "<span class='letter'>$&</span>");
+
+		new Audio('../assets/sound/coeur.mp3').play()
 		
 		anime.timeline({loop: false})
 			.add({

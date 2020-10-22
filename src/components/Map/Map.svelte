@@ -10,6 +10,8 @@
 
     import { trigoangle, normalizePoint, geocode, distance } from '../../utils'
 
+    import heartBeatSrc from '../../assets/sound/coeur.mp3'
+
     // import { vec3 } from 'gl-matrix'
     // import enableWebGlCanvas from '../../lib/webgl/Canvas2DtoWebGL'
 
@@ -25,6 +27,8 @@
     export let stepped = false
     export let index = 0
 
+    let heartBeat
+
     let canvas, blobs, map, svg, ctx, ctx2
     // let zoomLevel = {val: 4}
     // let center = {x: -1077/1.3, y: -620/1.3}
@@ -32,6 +36,7 @@
     let center = {x: 0, y: 0}
     let shouldRender = false, isZooming = false
     let state = {
+        hasHBHighRate: false,
         isZoomed: false,
         isDragging: false
     }
@@ -299,8 +304,19 @@
         if (isOverPoint) e.target.style.cursor = 'pointer'
         else {e.target.style.cursor = 'initial'; overPoint = undefined;}
 
+        if (state.isZoomed) return
+
+        let isInHotZone
         for (const hotZone of hotZones) {
-            if (inside([clientX, clientY], hotZone)) console.log('inside hot zone !')
+            if (inside([clientX, clientY], hotZone)) isInHotZone = true
+        }
+        if (!state.hasHBHighRate && isInHotZone) {
+            setHighHBRate()
+            state.hasHBHighRate = true
+        }
+        else if (!isInHotZone) {
+            setLowHBRate()
+            state.hasHBHighRate = false
         }
     }
 
@@ -416,6 +432,19 @@
         console.log('appearpoint', point)
     }
 
+    let hbInterval
+    function setHighHBRate () {
+        heartBeat.playbackRate = 1.5
+        hbInterval = setInterval(() => {
+            heartBeat.currentTime = 0.8
+        }, 600)
+    }
+
+    function setLowHBRate () {
+        heartBeat.playbackRate = 1
+        clearInterval(hbInterval)
+    }
+
     function render () {
         ctx.save()
         ctx.translate(0, 0)
@@ -488,6 +517,12 @@
         // setInterval(() => {
         //     window.time++
         // }, 1000);
+
+        heartBeat = new Audio(heartBeatSrc)
+        heartBeat.loop = true
+        heartBeat.playbackRate = 1.5
+        heartBeat.play()
+        window.addEventListener('click', () => heartBeat.play(), { once: true })
 
         window.addEventListener('resize', resize)
         window.addEventListener('touchstart', handleMouseDown)
