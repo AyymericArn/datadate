@@ -51,6 +51,21 @@
         'other': '#2A92E8'
     }
 
+    const zoomValues = {
+        canvas: {
+            zoom: {min: 1, max: 4},
+            translation: {x: 0, y: 0}
+        },
+        points: {
+            zoom: {x: 4, y: 4},
+            translation: {x: 0, y: 0}
+        },
+        mouse: {
+            zoom: {x: 4, y: 4},
+            translation: {x: 0, y: 0}
+        }
+    }
+
     function drawStreets () {
         console.log('drawstreet')
         // ctx2.save()
@@ -337,8 +352,24 @@
         render()
     }
 
-    function zoomScroll() {
-
+    function zoomScroll(e) {
+        console.log(e.deltaY)
+        if (e.deltaY < 0 && zoomLevel.val < zoomValues.canvas.zoom.max) {
+            shouldRender = true
+            new TWEEN.Tween(zoomLevel)
+                .to({val: zoomLevel.val + 0.5}, 100)
+                .easing(TWEEN.Easing.Quadratic.Out)
+                .start()
+                .onComplete(() => shouldRender = false)
+        }
+        if (e.deltaY > 0 && zoomLevel.val > zoomValues.canvas.zoom.min) {
+            shouldRender = true
+            new TWEEN.Tween(zoomLevel)
+                .to({val: zoomLevel.val + 0.5}, 100)
+                .easing(TWEEN.Easing.Quadratic.Out)
+                .start()
+                .onComplete(() => shouldRender = false)
+        }
     }
 
     function zoom(pos) {
@@ -468,6 +499,7 @@
         window.addEventListener('mousedown', handleMouseDown)
         window.addEventListener('mouseup', handleMouseUp)
         window.addEventListener('mousemove', updateMousePosition)
+        window.addEventListener('wheel', zoomScroll)
     })
 
 

@@ -20,13 +20,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="35aeb8ab-37e4-4e98-a3e1-6ca6a3de4836" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/workers/canvasRenderer.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/typings/worker-loader/index.d.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Map/Map.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Map/Map.svelte" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/routes/index.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/index.svelte" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -97,7 +92,7 @@
       <workItem from="1603115309407" duration="7360000" />
       <workItem from="1603177538580" duration="23239000" />
       <workItem from="1603264271493" duration="29835000" />
-      <workItem from="1603350621101" duration="23567000" />
+      <workItem from="1603350621101" duration="24511000" />
     </task>
     <task id="LOCAL-00001" summary="intermediate stade for blobs">
       <created>1603194082669</created>
@@ -211,7 +206,14 @@
       <option name="project" value="LOCAL" />
       <updated>1603372333696</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="hot zone calculation and detection ok">
+      <created>1603386819967</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1603386819967</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -245,7 +247,8 @@
     <MESSAGE value="addresses + pin ok" />
     <MESSAGE value="anim pin" />
     <MESSAGE value="stroke ok" />
-    <option name="LAST_COMMIT_MESSAGE" value="stroke ok" />
+    <MESSAGE value="hot zone calculation and detection ok" />
+    <option name="LAST_COMMIT_MESSAGE" value="hot zone calculation and detection ok" />
   </component>
   <component name="WindowStateProjectService">
     <state width="2518" height="338" key="GridCell.Tab.0.bottom" timestamp="1603383793588">
@@ -268,10 +271,14 @@
       <screen x="0" y="23" width="2560" height="1339" />
     </state>
     <state x="781" y="331" key="SettingsEditor/0.23.2560.1339@0.23.2560.1339" timestamp="1603285523337" />
-    <state x="880" y="432" key="Vcs.Push.Dialog.v2" timestamp="1603372346980">
+    <state width="500" height="445" key="SwitcherDM" timestamp="1603387086126">
       <screen x="0" y="23" width="2560" height="1339" />
     </state>
-    <state x="880" y="432" key="Vcs.Push.Dialog.v2/0.23.2560.1339@0.23.2560.1339" timestamp="1603372346980" />
+    <state width="500" height="445" key="SwitcherDM/0.23.2560.1339@0.23.2560.1339" timestamp="1603387086126" />
+    <state x="880" y="432" key="Vcs.Push.Dialog.v2" timestamp="1603386823634">
+      <screen x="0" y="23" width="2560" height="1339" />
+    </state>
+    <state x="880" y="432" key="Vcs.Push.Dialog.v2/0.23.2560.1339@0.23.2560.1339" timestamp="1603386823634" />
     <state x="1072" y="613" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1603350637544">
       <screen x="0" y="23" width="2560" height="1339" />
     </state>
