@@ -283,6 +283,7 @@
         }
     }
 
+    let setPin = false
     function handleClick(e) {
         // console.log('interespoint', interestPointsCoords)
         // console.log('clicked')
@@ -294,6 +295,10 @@
         setTimeout(() => {
             appearPoint(interestPointsCoords[overPoint], interestPointsAddresses[overPoint])
         }, 1000)
+        // if (!state.isZoomed) {
+        // } else {
+        //     appearPoint(interestPointsCoords[overPoint], interestPointsAddresses[overPoint])
+        // }
     }
 
     let mouseDown = false, mouseBasePosition = {x: 0, y: 0}
@@ -313,11 +318,16 @@
         render()
     }
 
+    function zoomScroll() {
+
+    }
+
     function zoom(pos) {
         // console.log('zoomed');
         shouldRender = true
         isZooming = true
         state.isZoomed = true
+        vignetting.style.opacity = 1
         const scale = new TWEEN.Tween(zoomLevel)
             .to({val: 4}, 1000)
             .easing(TWEEN.Easing.Quadratic.Out)
@@ -335,6 +345,7 @@
     }
 
     let pin
+    let vignetting
     function appearPoint(point, address) {
         // point[0] *= zoomLevel.val/1.15
         // point[0] += center.x/0.3
@@ -353,8 +364,11 @@
 
         setTimeout(() => {
             pin.style.opacity = 1
+            setPin = true
             pin.children[0].textContent = address.substring(0, address.indexOf(','))
         }, 200)
+
+        setTimeout(() => setPin = false, 1000)
 
         console.log('appearpoint', point)
     }
@@ -453,6 +467,8 @@
         z-index 60
         flex-direction column
         justify-content space-between
+        pointer-events none
+
         h3
             font-family: Shrikhand;
             font-style: normal;
@@ -467,11 +483,29 @@
             border-radius 50px
             background none
             color white
+            pointer-events all
+
+        &.animated
+          animation appear 0.3s ease 1 both
+          h3
+            animation pop 0.3s ease 1 0.3s both
+          button
+            animation pop_bounce 0.3s ease 1 0.6s both
 
     .blobs, .map
         transform rotate(180deg) scaleX(-1)
     .map
         opacity 0.3
+
+    .vignetting
+        position absolute
+        z-index 20
+        width 100vw
+        height 100vh
+        opacity: 0;
+        pointer-events none
+        background-image radial-gradient(circle, rgba(0,0,0,0) 60%, rgba(0,0,0,2) 100%)
+
     canvas, img
       position absolute
 
@@ -479,14 +513,33 @@
       opacity 0
       width: 100%
       height 100%
+
+    @keyframes appear {
+      0% {transform: scaleY(0)}
+      100% {transform: scaleY(1)}
+    }
+
+    @keyframes pop {
+      from {transform: scale(0)}
+      to {transform: scale(1)}
+    }
+
+    @keyframes pop_bounce {
+      0% {transform: scale(0)}
+      80% {transform: scale(1.2)}
+      100% {transform: scale(1)}
+    }
+
 </style>
 
 <img bind:this={svg} src={mapSrc} alt="">
 
-<div bind:this={pin} class="pin">
+<div bind:this={pin} class={ setPin ? 'pin animated' : 'pin'}>
     <h3>Endroit</h3>
     <button>Partager à ton date →</button>
 </div>
+
+<div bind:this={vignetting} class="vignetting"></div>
 
 <canvas bind:this={canvas}>
 </canvas>

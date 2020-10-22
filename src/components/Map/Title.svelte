@@ -1,5 +1,7 @@
 <style lang="stylus">
     .title
+      position relative
+      z-index 60
       display flex
       width 100vw
       justify-content: space-between
