@@ -20,14 +20,15 @@
 			.add({
 				targets: 'h1 .letter',
 				translateY: [-200,0],
-				easing: "linear",
-				duration: 100,
-				delay: (el, i) => 150 * i
+				easing: "easeOutExpo",
+				duration: 1400,
+				delay: (el, i) => 30 * i
 			})
 	})
 </script>
 
 <style lang="stylus">
+
 	.container
 		width 100vw
 		height 100vh
@@ -104,14 +105,14 @@
 </svelte:head>
 
 <div class="container">
-	<h1 bind:this={title}><span class="letter"></span>data.DATE</h1>
+	<h1 bind:this={title}><span class="letter"></span>.dataDATE</h1>
 	
 	<div class={entering ? 'animator triggered' : 'animator'}></div>
 
 	<div class="center">
 		<p>Où dates-tu dans Paris ?</p>
 		
-		<button on:click={enter}>commencer</button>
+		<button on:click={enter}>Trouver une addresse</button>
 	</div>
 	<div class="letter"></div>
 </div>

@@ -74,7 +74,7 @@
         ctx2.strokeStyle = '#ffffff88'
         ctx2.globalAlpha = 0.5
 
-        console.log(arrondissements.features[0].geometry.coordinates[0])
+        // console.log(arrondissements.features[0].geometry.coordinates[0])
         for (const feature of arrondissements.features) {
             ctx2.beginPath()
             ctx.lineWidth = 2.0
@@ -202,20 +202,22 @@
                             point[1] += center.y/0.3
                         }
                         
-                        console.log(point)
+                        // console.log(point)
                         
                         if (!interestPointsCoords.some(_p => _p[0] === point[0])) {
-                            console.log('PUSH')
                             interestPointsCoords.push(point)
+                        }
+                        if (!interestPointsAddresses.includes(_date.address)) {
+                            interestPointsAddresses.push(_date.address)
                         }
     
                         const gradient = ctx.createRadialGradient(
                             Math.round(point[0]),
                             Math.round(point[1]),
-                            5,
+                            15,
                             point[0],
                             point[1],
-                            6
+                            16
                         )
     
                         gradient.addColorStop(0, colors[population])
@@ -244,18 +246,24 @@
         let clientY = window.innerHeight - e.clientY
 
         if (state.isZoomed) {
-            clientX *= zoomLevel.val/2.8
-            clientX += center.x/1.8
-            clientY *= zoomLevel.val/2.8
-            clientY += center.y/1.8
+            clientX *= zoomLevel.val/3.1
+            clientX += center.x/2.3
+            clientY *= zoomLevel.val/3.1
+            clientY += center.y/2.3
         }
 
-        console.log(clientX, clientY)
+        // console.log(clientX, clientY)
+        clientX -= (translation.x*zoomLevel.val*12)
+        clientY += (translation.y*zoomLevel.val*12)
+
+        // console.log('after++', clientX, clientY)
+        // console.log('translation', translation.x, translation.y)
+        // console.log('multiplier', translation.x*zoomLevel.val*12, translation.y*zoomLevel.val*12)
 
         let isOverPoint = false
 
         for (const [index, interestPoint] of interestPointsCoords.entries()) {
-            if (distance([clientX, clientY], interestPoint) < 30) {isOverPoint = true; overPoint = index;}
+            if (distance([clientX, clientY], interestPoint) < 16) {isOverPoint = true; overPoint = index;}
         }
 
         if (isOverPoint) e.target.style.cursor = 'pointer'
@@ -267,22 +275,25 @@
     function updateMousePosition(e) {
         mousePosition.x = e.clientX
         mousePosition.y = e.clientY
-        translation.x = (e.clientX - mouseBasePosition.x)/50
-        translation.y = (-(e.clientY - mouseBasePosition.y))/50
         if (mouseDown) {
+            translation.x = (e.clientX - mouseBasePosition.x)/50
+            translation.y = (-(e.clientY - mouseBasePosition.y))/50
             ctx.translate(translation.x, translation.y)
             ctx2.translate(translation.x, translation.y)
         }
     }
 
     function handleClick(e) {
-        console.log('interespoint', interestPointsCoords)
-        console.log('clicked')
-        console.log(e)
-        console.log($selected)
-        if (overPoint !== undefined) {
+        // console.log('interespoint', interestPointsCoords)
+        // console.log('clicked')
+        // console.log(e)
+        // console.log($selected)
+        if (overPoint !== undefined && !state.isZoomed) {
             zoom(interestPointsCoords[overPoint])
         }
+        setTimeout(() => {
+            appearPoint(interestPointsCoords[overPoint], interestPointsAddresses[overPoint])
+        }, 1000)
     }
 
     let mouseDown = false, mouseBasePosition = {x: 0, y: 0}
@@ -303,7 +314,7 @@
     }
 
     function zoom(pos) {
-        console.log('zoomed');
+        // console.log('zoomed');
         shouldRender = true
         isZooming = true
         state.isZoomed = true
@@ -321,6 +332,31 @@
                 isZooming = false
                 render()
             })
+    }
+
+    let pin
+    function appearPoint(point, address) {
+        // point[0] *= zoomLevel.val/1.15
+        // point[0] += center.x/0.3
+        // point[1] *= zoomLevel.val/1.15
+        // point[1] += center.y/0.3
+        point[0] += (translation.x*zoomLevel.val*12)
+        point[0] -= center.x/2.3
+        point[0] /= zoomLevel.val/3.1
+
+        point[1] -= (translation.y*zoomLevel.val*12)
+        point[1] -= center.y/2.3
+        point[1] /= zoomLevel.val/3.1
+
+        pin.style.left = `${point[0] - 14}px`
+        pin.style.top = `${window.innerHeight - point[1] - 90 - 14}px`
+
+        setTimeout(() => {
+            pin.style.opacity = 1
+            pin.children[0].textContent = address.substring(0, address.indexOf(','))
+        }, 200)
+
+        console.log('appearpoint', point)
     }
 
     function render () {
@@ -406,6 +442,32 @@
 </script>
 
 <style lang="stylus">
+    .pin
+        position absolute
+        opacity 0
+        border-left 1px solid white
+        transition opacity 0.3s ease
+        padding-left 16px
+        height 90px
+        display flex
+        z-index 60
+        flex-direction column
+        justify-content space-between
+        h3
+            font-family: Shrikhand;
+            font-style: normal;
+            font-weight: normal;
+            font-size: 16px;
+            line-height: 23px;
+            color: #FFFFFF;
+        button
+            cursor pointer
+            border 1px solid white
+            padding 8px 12px
+            border-radius 50px
+            background none
+            color white
+
     .blobs, .map
         transform rotate(180deg) scaleX(-1)
     .map
@@ -420,6 +482,12 @@
 </style>
 
 <img bind:this={svg} src={mapSrc} alt="">
+
+<div bind:this={pin} class="pin">
+    <h3>Endroit</h3>
+    <button>Partager à ton date →</button>
+</div>
+
 <canvas bind:this={canvas}>
 </canvas>
 
