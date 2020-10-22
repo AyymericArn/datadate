@@ -77,7 +77,7 @@
         // console.log(arrondissements.features[0].geometry.coordinates[0])
         for (const feature of arrondissements.features) {
             ctx2.beginPath()
-            ctx.lineWidth = 2.0
+            ctx2.lineWidth = 3.0
             let prevPoint = feature.geometry.coordinates[0][0]
             for (let point of feature.geometry.coordinates[0]) {
                 ctx2.lineTo(point[0], point[1])
@@ -495,7 +495,7 @@
     .blobs, .map
         transform rotate(180deg) scaleX(-1)
     .map
-        opacity 0.3
+        opacity 0.2
 
     .vignetting
         position absolute
