@@ -21,10 +21,7 @@
   <component name="ChangeListManager">
     <list default="true" id="35aeb8ab-37e4-4e98-a3e1-6ca6a3de4836" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Map/Map.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Map/Map.svelte" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Map/Menu.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Map/Menu.svelte" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Map/Title.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Map/Title.svelte" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/routes/map.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/map.svelte" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -67,7 +64,7 @@
       <recent name="$PROJECT_DIR$/typings/worker-loader" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="npm.dev">
     <configuration name="dev" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
       <package-json value="$PROJECT_DIR$/package.json" />
       <command value="run" />
@@ -78,9 +75,20 @@
       <envs />
       <method v="2" />
     </configuration>
+    <configuration name="export" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="export" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="npm.dev" />
+        <item itemvalue="npm.export" />
       </list>
     </recent_temporary>
   </component>
@@ -252,7 +260,14 @@
       <option name="project" value="LOCAL" />
       <updated>1603411633895</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="some styling updates">
+      <created>1603442426501</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1603442426501</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -292,29 +307,30 @@
     <MESSAGE value="heartbeat ok" />
     <MESSAGE value="seine + base pour chrono" />
     <MESSAGE value="wip chrono" />
-    <option name="LAST_COMMIT_MESSAGE" value="wip chrono" />
+    <MESSAGE value="some styling updates" />
+    <option name="LAST_COMMIT_MESSAGE" value="some styling updates" />
   </component>
   <component name="WindowStateProjectService">
-    <state width="1899" height="233" key="GridCell.Tab.0.bottom" timestamp="1603404681102">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state width="2518" height="338" key="GridCell.Tab.0.bottom" timestamp="1603442774646">
+      <screen x="0" y="23" width="2560" height="1339" />
     </state>
     <state width="1899" height="233" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1603404681102" />
-    <state width="2518" height="338" key="GridCell.Tab.0.bottom/0.23.2560.1339@0.23.2560.1339" timestamp="1603383793588" />
-    <state width="1899" height="233" key="GridCell.Tab.0.center" timestamp="1603404681102">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state width="2518" height="338" key="GridCell.Tab.0.bottom/0.23.2560.1339@0.23.2560.1339" timestamp="1603442774646" />
+    <state width="2518" height="338" key="GridCell.Tab.0.center" timestamp="1603442774645">
+      <screen x="0" y="23" width="2560" height="1339" />
     </state>
     <state width="1899" height="233" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1603404681102" />
-    <state width="2518" height="338" key="GridCell.Tab.0.center/0.23.2560.1339@0.23.2560.1339" timestamp="1603383793587" />
-    <state width="1899" height="233" key="GridCell.Tab.0.left" timestamp="1603404681102">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state width="2518" height="338" key="GridCell.Tab.0.center/0.23.2560.1339@0.23.2560.1339" timestamp="1603442774645" />
+    <state width="2518" height="338" key="GridCell.Tab.0.left" timestamp="1603442774645">
+      <screen x="0" y="23" width="2560" height="1339" />
     </state>
     <state width="1899" height="233" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1603404681102" />
-    <state width="2518" height="338" key="GridCell.Tab.0.left/0.23.2560.1339@0.23.2560.1339" timestamp="1603383793587" />
-    <state width="1899" height="233" key="GridCell.Tab.0.right" timestamp="1603404681102">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state width="2518" height="338" key="GridCell.Tab.0.left/0.23.2560.1339@0.23.2560.1339" timestamp="1603442774645" />
+    <state width="2518" height="338" key="GridCell.Tab.0.right" timestamp="1603442774645">
+      <screen x="0" y="23" width="2560" height="1339" />
     </state>
     <state width="1899" height="233" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1603404681102" />
-    <state width="2518" height="338" key="GridCell.Tab.0.right/0.23.2560.1339@0.23.2560.1339" timestamp="1603383793587" />
+    <state width="2518" height="338" key="GridCell.Tab.0.right/0.23.2560.1339@0.23.2560.1339" timestamp="1603442774645" />
     <state x="781" y="331" key="SettingsEditor" timestamp="1603285523337">
       <screen x="0" y="23" width="2560" height="1339" />
     </state>
@@ -323,11 +339,11 @@
       <screen x="0" y="23" width="2560" height="1339" />
     </state>
     <state width="500" height="445" key="SwitcherDM/0.23.2560.1339@0.23.2560.1339" timestamp="1603387086126" />
-    <state x="660" y="318" key="Vcs.Push.Dialog.v2" timestamp="1603411644099">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state x="880" y="432" key="Vcs.Push.Dialog.v2" timestamp="1603442429448">
+      <screen x="0" y="23" width="2560" height="1339" />
     </state>
     <state x="660" y="318" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1603411644099" />
-    <state x="880" y="432" key="Vcs.Push.Dialog.v2/0.23.2560.1339@0.23.2560.1339" timestamp="1603386823634" />
+    <state x="880" y="432" key="Vcs.Push.Dialog.v2/0.23.2560.1339@0.23.2560.1339" timestamp="1603442429448" />
     <state x="1072" y="613" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1603350637544">
       <screen x="0" y="23" width="2560" height="1339" />
     </state>
@@ -336,10 +352,10 @@
       <screen x="0" y="23" width="2560" height="1339" />
     </state>
     <state x="972" y="447" width="615" height="490" key="find.popup/0.23.2560.1339@0.23.2560.1339" timestamp="1603377271471" />
-    <state x="945" y="326" key="run.anything.popup" timestamp="1603181685063">
+    <state x="945" y="326" key="run.anything.popup" timestamp="1603442968822">
       <screen x="0" y="23" width="2560" height="1339" />
     </state>
-    <state x="945" y="326" key="run.anything.popup/0.23.2560.1339@0.23.2560.1339" timestamp="1603181685063" />
+    <state x="945" y="326" key="run.anything.popup/0.23.2560.1339@0.23.2560.1339" timestamp="1603442968822" />
     <state x="945" y="328" width="670" height="676" key="search.everywhere.popup" timestamp="1603441621381">
       <screen x="0" y="23" width="2560" height="1339" />
     </state>

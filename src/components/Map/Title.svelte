@@ -1,5 +1,10 @@
 <script>
+    import { screen } from '../../stores/state'
     export let stepped = false
+
+    function back () {
+        screen.set(0)
+    }
 </script>
 
 <style lang="stylus">
@@ -14,7 +19,7 @@
       font-style: normal;
       font-weight: normal;
       font-size: 24px;
-      pointer-events none
+      //pointer-events none
       line-height: 47px;
       button
         cursor pointer
@@ -55,7 +60,7 @@
 <div class="title">
     {#if stepped}
         <div>
-            <button>Retour ↑</button>
+            <button on:click={back}>Retour ↑</button>
             <h1>Où dates-tu dans Paris en fonction de l'évolution de la relation ?</h1>
         </div>
     {:else}
