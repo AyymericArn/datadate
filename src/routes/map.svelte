@@ -19,7 +19,7 @@
 </style>
 
 <div class="map">
-    <Title></Title>
+    <Title stepped={$screen === 0}></Title>
     {#if $screen === 0}
     <Map></Map>
     {:else if $screen === 1}

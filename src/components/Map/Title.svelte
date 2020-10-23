@@ -1,3 +1,7 @@
+<script>
+    export let stepped = false
+</script>
+
 <style lang="stylus">
     .title
       position relative
@@ -8,6 +12,11 @@
 </style>
 
 <div class="title">
-    <h1>Où dates-tu dans Paris ?</h1>
+    {#if stepped}
+        <button>Retour ↑</button>
+        <h1>Où dates-tu dans Paris en fonction de l'évolution de la relation ?</h1>
+    {:else}
+        <h1>Où dates-tu dans Paris ?</h1>
+    {/if}
     <span>.dataDATE</span>
 </div>

@@ -22,6 +22,7 @@
     <list default="true" id="35aeb8ab-37e4-4e98-a3e1-6ca6a3de4836" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Map/Map.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Map/Map.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Map/Title.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Map/Title.svelte" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/routes/map.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/map.svelte" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -94,7 +95,7 @@
       <workItem from="1603177538580" duration="23239000" />
       <workItem from="1603264271493" duration="29835000" />
       <workItem from="1603350621101" duration="24511000" />
-      <workItem from="1603404957743" duration="3761000" />
+      <workItem from="1603404957743" duration="6396000" />
     </task>
     <task id="LOCAL-00001" summary="intermediate stade for blobs">
       <created>1603194082669</created>
@@ -236,7 +237,14 @@
       <option name="project" value="LOCAL" />
       <updated>1603403569091</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="seine + base pour chrono">
+      <created>1603409112843</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1603409112843</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -274,7 +282,8 @@
     <MESSAGE value="zoom à peu près ok" />
     <MESSAGE value="redraw and drag fine" />
     <MESSAGE value="heartbeat ok" />
-    <option name="LAST_COMMIT_MESSAGE" value="heartbeat ok" />
+    <MESSAGE value="seine + base pour chrono" />
+    <option name="LAST_COMMIT_MESSAGE" value="seine + base pour chrono" />
   </component>
   <component name="WindowStateProjectService">
     <state width="1899" height="233" key="GridCell.Tab.0.bottom" timestamp="1603404681102">
@@ -305,10 +314,10 @@
       <screen x="0" y="23" width="2560" height="1339" />
     </state>
     <state width="500" height="445" key="SwitcherDM/0.23.2560.1339@0.23.2560.1339" timestamp="1603387086126" />
-    <state x="660" y="318" key="Vcs.Push.Dialog.v2" timestamp="1603403577340">
+    <state x="660" y="318" key="Vcs.Push.Dialog.v2" timestamp="1603409116408">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="660" y="318" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1603403577340" />
+    <state x="660" y="318" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1603409116408" />
     <state x="880" y="432" key="Vcs.Push.Dialog.v2/0.23.2560.1339@0.23.2560.1339" timestamp="1603386823634" />
     <state x="1072" y="613" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1603350637544">
       <screen x="0" y="23" width="2560" height="1339" />

@@ -173,13 +173,21 @@
             return { alternant: 0, student: 0, employed: 0, jobless: 0, other: 0, retired: 0 }
         })
 
-        ;results.forEach((_res) => {
-            _res.meets.forEach(_meet => {
-                _meet.dates.forEach(_date => {
-                    if (!isNaN(parseInt(_date.quartiers))) visitors[parseInt(_date.quartiers)-1][_res.situation] += 1
+        if (!stepped) {
+            results.forEach((_res) => {
+                _res.meets.forEach(_meet => {
+                    _meet.dates.forEach(_date => {
+                        if (!isNaN(parseInt(_date.quartiers))) visitors[parseInt(_date.quartiers)-1][_res.situation] += 1
+                    })
                 })
             })
-        })
+        } else {
+            results.forEach((_res) => {
+                _res.meets.forEach(_meet => {
+                    if (!isNaN(parseInt(_meet.dates[index] && _meet.dates[index].quartiers))) visitors[parseInt(_meet.dates[index].quartiers)-1][_res.situation] += 1
+                })
+            })
+        }
 
         console.log('visitors', visitors)
     }
@@ -241,6 +249,8 @@
     function addPoints (path, population) {
         const hasCache = !!geocoding
 
+        console.log('addPoints', index)
+
         for (const _res of results) {
             if (_res.situation !== population) continue
             _res.meets.forEach(async _meet => {
@@ -253,7 +263,10 @@
 
                         let point = geocoding.features[0].geometry.coordinates
                         
-                        if (!hasCache) point = normalizePoint(point, svg.clientWidth/2 - 100)
+                        if (!hasCache) {
+                            if (!stepped) point = normalizePoint(point, svg.clientWidth/2 - 100)
+                            else point = normalizePoint(point, svg.clientWidth/2 - 100, 0.5)
+                        }
                         
                         // console.log(point)
                         // console.log(point[0] * zoomLevel.val + center.x)
@@ -264,6 +277,11 @@
                             point[0] += center.x/0.3
                             point[1] *= zoomLevel.val/1.15
                             point[1] += center.y/0.3
+                        }
+
+                        if (stepped) {
+                            point[0] += center.x
+                            point[1] += center.y
                         }
                         
                         // console.log(point)
@@ -640,6 +658,11 @@
       100% {transform: scale(1)}
     }
 
+    .date-index
+      position absolute
+      bottom 200px
+      color white
+
 </style>
 
 <img bind:this={svg} src={mapSrc} alt="">
@@ -658,3 +681,7 @@
 </canvas>
 <canvas on:click={handleClick} on:mousemove={handleMouseMove} class="blobs" bind:this={blobs}>
 </canvas>
+
+{#if stepped}
+    <p class="date-index" style={`left: ${index*600+300}px`}>{ index + 1 }{ index > 0 ? 'ème' : 'er' } date</p>
+{/if}
