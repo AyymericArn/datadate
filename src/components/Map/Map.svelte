@@ -12,6 +12,8 @@
     import { trigoangle, normalizePoint, geocode, distance } from '../../utils'
 
     import heartBeatSrc from '../../assets/sound/coeur.mp3'
+    import mouse2Src from '../../assets/mouse2.svg'
+    import arrowSrc from '../../assets/arrow.svg'
 
     // import { vec3 } from 'gl-matrix',
     // import enableWebGlCanvas from '../../lib/webgl/Canvas2DtoWebGL'
@@ -47,7 +49,8 @@
     let state = {
         hasHBHighRate: false,
         isZoomed: false,
-        isDragging: false
+        isDragging: false,
+        isIntermediateZoom: false
     }
     let shouldDrawMap = true
 
@@ -667,6 +670,43 @@
       bottom 200px
       color white
 
+    .zoomTuto, .moveTuto
+      position absolute
+      left 70px
+      top calc(50vh - 100px)
+      width 100px
+      height 100px
+
+      img
+        position relative
+        opacity 1
+
+      .arrow
+        position relative
+        transform scale(0.4)
+        animation scrollDown 1s ease infinite
+
+      span
+        font-family: Rubik;
+        font-style: normal;
+        font-weight: bold;
+        font-size: 6px;
+        line-height: 10px;
+        display inline-block
+        margin auto
+        text-align center
+        width 100%
+
+        display: flex;
+        align-items: flex-end;
+        text-align: center;
+        color: #FFFFFF;
+
+    @keyframes scrollDown {
+      from { top: 0px; opacity 1; }
+      to { top: 20px; opacity 0; }
+    }
+
 </style>
 
 <img bind:this={svg} src={mapSrc} alt="">
@@ -686,6 +726,18 @@
 <canvas on:click={handleClick} on:mousemove={handleMouseMove} class="blobs" bind:this={blobs}>
 </canvas>
 
+{#if !state.isIntermediateZoomed}
+    <div class="zoomTuto">
+        <img src={mouse2Src} alt="mouse">
+        <img class="arrow" src={arrowSrc} alt="v">
+        <span>scroll pour</span>
+        <span>zoomer</span>
+    </div>
+{:else}
+    <div class="moveTuto">
+
+    </div>
+{/if}
 {#if stepped}
     <p class="date-index" style={`left: ${index*800+400}px`}>{ index + 1 }{ index > 0 ? 'ème' : 'er' } date</p>
 {/if}
