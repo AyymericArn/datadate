@@ -3,7 +3,7 @@
     import mapSrc from '../../assets/DessinArrondissement.svg'
     import arrondissements from '../../data/arrondissements.geo.json'
     import streets from '../../data/voie.json'
-    import seine from '../../data/seine.json'
+    import seine from '../../data/seine2.json'
     import results from '../../data/results.json'
 
     import { onMount } from 'svelte'
@@ -13,7 +13,7 @@
 
     import heartBeatSrc from '../../assets/sound/coeur.mp3'
 
-    // import { vec3 } from 'gl-matrix'
+    // import { vec3 } from 'gl-matrix',
     // import enableWebGlCanvas from '../../lib/webgl/Canvas2DtoWebGL'
 
     // const randf = require('randf')
@@ -25,7 +25,7 @@
     const simpleArrondissements = simplifier(arrondissements, 0.002)
 
     const simpleStreets = simplifier(streets, 0.002)
-    const simpleSeine = simplifier(seine, 0.002)
+    const simpleSeine = simplifier(seine, 0.0003)
 
     // props
     export let stepped = false
@@ -101,7 +101,7 @@
 
     function drawSeine () {
         ctx2.globalAlpha = 0.9
-        ctx2.fillStyle='#2F4545'
+        ctx2.fillStyle='aquamarine'
         console.log('drawseine')
         for (const feature of simpleSeine.features) {
             ctx2.beginPath()
