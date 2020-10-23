@@ -10,7 +10,7 @@
 		entering = true
 		setTimeout(() => {
 			goto('map')
-		}, 600);
+		}, 300);
 	}
 
 	onMount(async () => {
@@ -97,7 +97,7 @@
 			transform scale(0)
 
 			&.triggered
-				animation pop 1s cubic-bezier(.17,.67,.13,1.02) 1
+				animation pop 0.3s cubic-bezier(.17,.67,.13,1.02) 1
 				animation-fill-mode both
 
 		@keyframes pop {

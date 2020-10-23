@@ -99,11 +99,16 @@
           .separator
             margin-top 46px
             padding 8px 0
-            font-style italic
+            //margin-bottom 8px
             text-decoration underline
-            text-transform capitalize
-            font-size: 16px;
             line-height: 17px;
+            font-family: Shrikhand;
+            font-style: normal;
+            font-weight: normal;
+            font-size: 18px;
+            line-height: 17px;
+            display: flex;
+            align-items: center;
 
           input
             margin-top 46px
