@@ -20,12 +20,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="35aeb8ab-37e4-4e98-a3e1-6ca6a3de4836" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/lib/1DNoise.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/lib/SimplexNoise.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Map/Map.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Map/Map.svelte" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Map/Menu.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Map/Menu.svelte" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Map/Title.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Map/Title.svelte" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/routes/index.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/index.svelte" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/routes/map.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/map.svelte" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -342,10 +340,10 @@
       <screen x="0" y="23" width="2560" height="1339" />
     </state>
     <state x="945" y="326" key="run.anything.popup/0.23.2560.1339@0.23.2560.1339" timestamp="1603181685063" />
-    <state x="709" y="237" width="672" height="678" key="search.everywhere.popup" timestamp="1603402126576">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state x="945" y="328" width="670" height="676" key="search.everywhere.popup" timestamp="1603441621381">
+      <screen x="0" y="23" width="2560" height="1339" />
     </state>
     <state x="709" y="237" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1603402126576" />
-    <state x="945" y="328" key="search.everywhere.popup/0.23.2560.1339@0.23.2560.1339" timestamp="1603187907878" />
+    <state x="945" y="328" width="670" height="676" key="search.everywhere.popup/0.23.2560.1339@0.23.2560.1339" timestamp="1603441621381" />
   </component>
 </project>

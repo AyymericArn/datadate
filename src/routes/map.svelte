@@ -44,5 +44,5 @@
       <Map index={1} position={0} stepped={true}></Map>
       <Map index={2} position={1} stepped={true}></Map>
     {/if}
-    <Menu></Menu>
+    <Menu stepped={$screen === 0}></Menu>
 </div>

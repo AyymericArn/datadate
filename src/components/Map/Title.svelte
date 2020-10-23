@@ -16,14 +16,35 @@
       font-size: 24px;
       pointer-events none
       line-height: 47px;
-      h1
-        margin 35px
-      span
-        margin 35px
+      button
+        cursor pointer
+        padding 8px 40px
+        margin 35px 0 0 35px
+        background none
+        border white 1px solid
+        color white
         font-family: Rubik;
         font-style: normal;
         font-weight: normal;
-        font-size: 12px;
+        font-size: 10px;
+        line-height: 12px;
+        display: flex;
+        align-items: center;
+        text-align: center;
+        color: white;
+        font-size 18px
+        border-radius 50px
+      h1
+        margin 35px
+        max-width: 1200px;
+
+      span
+        margin 35px
+        margin-right 120px
+        font-family: Rubik;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 16px;
         line-height: 14px;
         display: flex;
         align-items: flex-end;
@@ -33,8 +54,10 @@
 
 <div class="title">
     {#if stepped}
-        <button>Retour ↑</button>
-        <h1>Où dates-tu dans Paris en fonction de l'évolution de la relation ?</h1>
+        <div>
+            <button>Retour ↑</button>
+            <h1>Où dates-tu dans Paris en fonction de l'évolution de la relation ?</h1>
+        </div>
     {:else}
         <h1>Où dates-tu dans Paris ?</h1>
     {/if}

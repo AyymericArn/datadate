@@ -40,7 +40,7 @@
     let zoomLevel = {val: 1}
     let center = {x: 0, y: 0}
     if (stepped) {
-        center.x = position*600
+        center.x = position*800
         center.y = 250
     }
     let shouldRender = false, isZooming = false
@@ -104,7 +104,6 @@
         ctx2.fillStyle='#2F4545'
         console.log('drawseine')
         for (const feature of simpleSeine.features) {
-            console.log(feature)
             ctx2.beginPath()
             for (const point of feature.geometry.coordinates[0]) {
                 // console.log(point)
@@ -348,8 +347,10 @@
             if (distance([clientX, clientY], interestPoint) < 16) {isOverPoint = true; overPoint = index;}
         }
 
-        if (isOverPoint) e.target.style.cursor = 'pointer'
-        else {e.target.style.cursor = 'initial'; overPoint = undefined;}
+        if (!mouseDown) {
+            if (isOverPoint) e.target.style.cursor = 'pointer'
+            else {e.target.style.cursor = 'grab'; overPoint = undefined;}
+        }
 
         if (state.isZoomed) return
 
@@ -408,6 +409,7 @@
         mouseDown = true
         mouseBasePosition.x = e.clientX
         mouseBasePosition.y = e.clientY
+        blobs.style.cursor = 'grabbing'
     }
     function handleMouseUp (e) {
         // shouldDrawMap = true
@@ -415,6 +417,7 @@
         mouseDown = false
         state.isDragging = false
         render()
+        blobs.style.cursor = 'grab'
     }
 
     function zoomScroll(e) {
@@ -636,6 +639,7 @@
 
     canvas, img
       position absolute
+      cursor grab
 
     img
       opacity 0
@@ -683,5 +687,5 @@
 </canvas>
 
 {#if stepped}
-    <p class="date-index" style={`left: ${index*600+300}px`}>{ index + 1 }{ index > 0 ? 'ème' : 'er' } date</p>
+    <p class="date-index" style={`left: ${index*800+400}px`}>{ index + 1 }{ index > 0 ? 'ème' : 'er' } date</p>
 {/if}

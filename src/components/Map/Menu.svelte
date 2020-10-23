@@ -2,6 +2,7 @@
     import scaleSrc from '../../assets/Echelle.svg'
     import { selected, screen } from '../../stores/state'
 
+    export let stepped = false
     let allLieu, allPopulation
 
     function next() {
@@ -69,6 +70,7 @@
           cursor pointer
           height min-content
           align-self flex-end
+          font-size 18px
 
         ul
           z-index 50
@@ -80,7 +82,7 @@
           bottom 0px
           right 50px
 
-          button
+          button:not(:last-of-type)
             cursor pointer
             text-align left
             margin 10px 0
@@ -110,7 +112,7 @@
             display: flex;
             align-items: center;
 
-          input
+          .input
             margin-top 46px
             background none
             border white solid 1px
@@ -118,16 +120,25 @@
             color white
             padding 6px 20px
             cursor pointer
+            font-size 18px
+            cursor not-allowed
+            opacity 0.5
+            //max-width 250px
+            //line-break auto
 
           img
             position absolute
             bottom 0
             right 120%
+            transform scale(1.6)
+            transform-origin bottom right
 
 </style>
 
 <div class="menu">
-    <button on:click={next} class="chronology">Chronologie des dates ↓</button>
+    {#if stepped}
+        <button on:click={next} class="chronology">Chronologie des dates ↓</button>
+    {/if}
 
     <ul>
         <span class="separator">Lieux de dates</span>
@@ -146,7 +157,10 @@
         <button on:click={(e) => togglePopulation("jobless", e)}><li>Sans-emploi</li></button>
         <button on:click={(e) => togglePopulation("retired", e)}><li>Retraité.e.s</li></button>
         <button on:click={(e) => togglePopulation("other", e)}><li>Autres</li></button>
-        <input type="button" value="Détails par arrondissements">
+        <button type="button" class="input" disabled>
+<!--        <input disabled type="button" value="Détails par arrondissements(coming soon)">-->
+            Détails par arrondissements <br> (coming soon)
+        </button>
         <img src={scaleSrc} alt="scale">
     </ul>
 </div>
