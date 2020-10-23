@@ -258,22 +258,22 @@
             _res.meets.forEach(async _meet => {
                 for (const _date of _meet.dates) {
                     if (_date.address) {
-    
+
                         const geocoding = await geocode(_date.address)
-    
+
                         if (!geocoding) continue
 
                         let point = geocoding.features[0].geometry.coordinates
-                        
+
                         if (!hasCache) {
                             if (!stepped) point = normalizePoint(point, svg.clientWidth/2 - 100)
                             else point = normalizePoint(point, svg.clientWidth/2 - 100, 0.5)
                         }
-                        
+
                         // console.log(point)
                         // console.log(point[0] * zoomLevel.val + center.x)
                         // console.log(point[1] * zoomLevel.val + center.y)
-                        
+
                         if (state.isZoomed) {
                             point[0] *= zoomLevel.val/1.15
                             point[0] += center.x/0.3
@@ -285,16 +285,16 @@
                             point[0] += center.x
                             point[1] += center.y
                         }
-                        
+
                         // console.log(point)
-                        
+
                         if (!interestPointsCoords.some(_p => _p[0] === point[0])) {
                             interestPointsCoords.push(point)
                         }
                         if (!interestPointsAddresses.includes(_date.address)) {
                             interestPointsAddresses.push(_date.address)
                         }
-    
+
                         const gradient = ctx.createRadialGradient(
                             Math.round(point[0]),
                             Math.round(point[1]),
@@ -303,13 +303,13 @@
                             point[1],
                             16
                         )
-    
+
                         gradient.addColorStop(0, colors[population])
-    
+
                         gradient.addColorStop(1, 'rgba(255,106,213,0)');
-    
+
                         ctx.fillStyle = gradient
-    
+
                         ctx.fill(path)
                     }
                 }
@@ -413,6 +413,7 @@
         mouseBasePosition.x = e.clientX
         mouseBasePosition.y = e.clientY
         blobs.style.cursor = 'grabbing'
+        disappearPoint()
     }
     function handleMouseUp (e) {
         // shouldDrawMap = true
@@ -421,10 +422,12 @@
         state.isDragging = false
         render()
         blobs.style.cursor = 'grab'
+        reappearPoint()
     }
 
     function zoomScroll(e) {
         console.log(e.deltaY)
+        disappearPoint()
         if (e.deltaY < 0 && zoomLevel.val < zoomValues.canvas.zoom.max) {
             if (isZooming) return
             zoom([mousePosition.x/2 -center.x , (window.innerHeight - mousePosition.y)/2 - center.y], zoomLevel.val + 0.5)
@@ -458,6 +461,7 @@
 
     let pin
     let vignetting
+    let lastAddress = ''
     function appearPoint(point, address) {
         // point[0] *= zoomLevel.val/1.15
         // point[0] += center.x/0.3
@@ -471,8 +475,8 @@
         point[1] -= center.y/2.3
         point[1] /= zoomLevel.val/3.1
 
-        pin.style.left = `${point[0] - 14}px`
-        pin.style.top = `${window.innerHeight - point[1] - 90 - 14}px`
+        pin.style.left = `${point[0] - 14 - translation.x}px`
+        pin.style.top = `${window.innerHeight - point[1] - 90 - 14 - translation.y}px`
 
         setTimeout(() => {
             pin.style.opacity = 1
@@ -482,7 +486,20 @@
 
         setTimeout(() => setPin = false, 1000)
 
+        lastAddress = address
+
         console.log('appearpoint', point)
+    }
+
+    function disappearPoint () {
+        pin.style.opacity = 0
+    }
+
+    function reappearPoint () {
+        if (!state.isZoomed) return
+        pin.style.left = `${parseFloat(pin.style.left) + translation.x}px`
+        pin.style.top = `${parseFloat(pin.style.top) + translation.y}px`
+        pin.style.opacity = 1
     }
 
     let hbInterval
@@ -512,7 +529,7 @@
         if (shouldDrawMap) drawMap()
         // console.log('render' + index + shouldDrawMap)
     }
-    
+
     function animate() {
         // ctx.start2D()
         if (shouldRender) {
@@ -524,19 +541,23 @@
         // ctx.finish2D()
     }
 
+    function copy () {
+        navigator.clipboard.writeText(lastAddress)
+    }
+
     onMount(async () => {
 
-        canvas.width = window.innerWidth 
+        canvas.width = window.innerWidth
             // * window.devicePixelRatio
-        canvas.height = window.innerHeight 
+        canvas.height = window.innerHeight
             // * window.devicePixelRatio
-        blobs.width = window.innerWidth 
+        blobs.width = window.innerWidth
             // * window.devicePixelRatio
-        blobs.height = window.innerHeight 
+        blobs.height = window.innerHeight
             // * window.devicePixelRatio
-        map.width = window.innerWidth 
+        map.width = window.innerWidth
             // * window.devicePixelRatio
-        map.height = window.innerHeight 
+        map.height = window.innerHeight
             // * window.devicePixelRatio
 
         ctx = blobs.getContext('2d')
@@ -571,11 +592,16 @@
         //     window.time++
         // }, 1000);
 
-        heartBeat = new Audio(heartBeatSrc)
-        heartBeat.loop = true
-        heartBeat.playbackRate = 1.5
-        heartBeat.play()
-        window.addEventListener('click', () => heartBeat.play(), { once: true })
+        if (!stepped || (stepped && index === 0)) {
+            heartBeat = new Audio(heartBeatSrc)
+            heartBeat.loop = true
+            heartBeat.playbackRate = 1.5
+            heartBeat.play()
+            window.addEventListener('click', () => {
+                heartBeat.play()
+                disappearPoint()
+            }, { once: true })
+        }
 
         window.addEventListener('resize', resize)
         window.addEventListener('touchstart', handleMouseDown)
@@ -680,17 +706,20 @@
       img
         position relative
         opacity 1
+        transform-origin bottom center
+        transform scale(0.5)
 
       .arrow
         position relative
-        transform scale(0.4)
+        transform scale(0.2)
+        transform-origin top center
         animation scrollDown 1s ease infinite
 
-      span
+      p
         font-family: Rubik;
         font-style: normal;
         font-weight: bold;
-        font-size: 6px;
+        font-size: 10px;
         line-height: 10px;
         display inline-block
         margin auto
@@ -701,6 +730,12 @@
         align-items: flex-end;
         text-align: center;
         color: #FFFFFF;
+        position relative
+        top -50px
+
+        &:last-of-type
+            font-family Shrikhand
+            left 25px
 
     @keyframes scrollDown {
       from { top: 0px; opacity 1; }
@@ -713,7 +748,7 @@
 
 <div bind:this={pin} class={ setPin ? 'pin animated' : 'pin'}>
     <h3>Endroit</h3>
-    <button>Partager à ton date →</button>
+    <button on:click={copy}>Partager à ton date →</button>
 </div>
 
 <div bind:this={vignetting} class="vignetting"></div>
@@ -730,8 +765,8 @@
     <div class="zoomTuto">
         <img src={mouse2Src} alt="mouse">
         <img class="arrow" src={arrowSrc} alt="v">
-        <span>scroll pour</span>
-        <span>zoomer</span>
+        <p>scroll pour</p>
+        <p>zoomer</p>
     </div>
 {:else}
     <div class="moveTuto">
@@ -739,5 +774,5 @@
     </div>
 {/if}
 {#if stepped}
-    <p class="date-index" style={`left: ${index*800+400}px`}>{ index + 1 }{ index > 0 ? 'ème' : 'er' } date</p>
+    <p class="date-index" style={`left: ${index*600+300}px`}>{ index + 1 }{ index > 0 ? 'ème' : 'er' } date</p>
 {/if}
