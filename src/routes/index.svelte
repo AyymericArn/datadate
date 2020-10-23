@@ -4,6 +4,9 @@
 	import anime from 'animejs/lib/anime.es.js';
 	import { onMount } from 'svelte'
 
+	import soundSrc from '../assets/sound/coeur.mp3'
+	import parisSrc from '../assets/paris_pano02.jpg'
+
 	let title, entering = false
 
 	function enter() {
@@ -16,8 +19,11 @@
 	onMount(async () => {
 		title.innerHTML = title.textContent.replace(/\S/g, "<span class='letter'>$&</span>");
 
-		new Audio('../assets/sound/coeur.mp3').play()
-		
+		console.log(parisSrc)
+		document.querySelector('.container').style.backgroundImage = `url(${parisSrc})`
+
+		new Audio(soundSrc).play()
+
 		anime.timeline({loop: false})
 			.add({
 				targets: 'h1 .letter',
@@ -38,6 +44,10 @@
 		flex-direction column
 		align-items center
 		justify-content space-around
+		background-size cover
+		background-position-y bottom
+		overflow hidden
+		//background-image url("../assets/paris_pano02.jpg")
 
 		h1
 			color white
@@ -102,7 +112,7 @@
 
 		@keyframes pop {
 			from {transform: scale(0)}
-			to {transform: scale(1)}
+			to {transform: scale(1.1)}
 		}
 </style>
 
@@ -112,12 +122,12 @@
 
 <div class="container">
 	<h1 bind:this={title}><span class="letter"></span>.dataDATE</h1>
-	
+
 	<div class={entering ? 'animator triggered' : 'animator'}></div>
 
 	<div class="center">
 		<p>Où dates-tu dans Paris ?</p>
-		
+
 		<button on:click={enter}>Trouver une adresse</button>
 	</div>
 	<div class="letter"></div>

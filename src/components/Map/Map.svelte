@@ -377,8 +377,8 @@
         mousePosition.x = e.clientX
         mousePosition.y = e.clientY
         if (mouseDown) {
-            translation.x = (e.clientX - mouseBasePosition.x)/zoomLevel.val
-            translation.y = (-(e.clientY - mouseBasePosition.y))/zoomLevel.val
+            translation.x = (e.clientX - mouseBasePosition.x)
+            translation.y = (-(e.clientY - mouseBasePosition.y))
             ctx.resetTransform()
             ctx2.resetTransform()
             ctx.translate(translation.x, translation.y)
@@ -498,7 +498,7 @@
     function reappearPoint () {
         if (!state.isZoomed) return
         pin.style.left = `${parseFloat(pin.style.left) + translation.x}px`
-        pin.style.top = `${parseFloat(pin.style.top) + translation.y}px`
+        pin.style.top = `${parseFloat(pin.style.top) - translation.y}px`
         pin.style.opacity = 1
     }
 
